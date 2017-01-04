@@ -1,0 +1,57 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="#708090" >
+    
+    <RelativeLayout 
+        android:layout_width="wrap_content"
+        android:layout_height="100dp"
+        android:background="@drawable/anhnen3">
+        
+    
+
+    <TextView 
+        android:id="@+id/txt_ncc"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Thông Tin"
+        android:layout_centerInParent="true"
+        android:textStyle="bold"
+        android:layout_alignParentTop="true"
+        android:textColor="#1C1C1C"/>
+    <RelativeLayout 
+        android:id="@+id/layout_info"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/txt_ncc"
+        android:layout_marginTop="10px">
+        <TextView 
+            android:id="@+id/txt_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Tên	: Nguyen Van Dong "
+            android:layout_marginLeft="5dp"
+             android:textColor="#1C1C1C"
+              android:textStyle="bold"/>
+        <TextView 
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Email	: nvdong1108@outlook.com"
+            android:layout_below="@+id/txt_name"
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="5dp"
+             android:textColor="#1C1C1C"
+              android:textStyle="bold"/>
+        
+        <ImageView 
+            android:layout_width="40dp"
+            android:layout_height="60dp"
+            android:src="@drawable/nvdong"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="10dp"/>
+        
+    </RelativeLayout>
+    
+    </RelativeLayout>
+    
+</RelativeLayout>
