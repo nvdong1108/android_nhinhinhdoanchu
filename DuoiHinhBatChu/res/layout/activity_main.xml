@@ -32,14 +32,16 @@
                 android:id="@+id/btn_on_Volume"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:background="@drawable/onvolume" />
+                android:background="@drawable/loa_on"
+                android:padding="2dp" />
 
             <Button
                 android:id="@+id/btn_off_Volume"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
-                android:background="@drawable/off_volume" />
+                android:background="@drawable/loa_of"
+                android:padding="2dp" />
         </RelativeLayout>
 
         <TextView
@@ -84,6 +86,7 @@
             android:layout_marginLeft="4dp"
             android:layout_weight="1"
             android:background="@drawable/ic_info"
+            android:padding="2dp"
             android:visibility="visible" />
     </LinearLayout>
 
@@ -91,21 +94,13 @@
         android:id="@+id/btn_stargame"
         android:layout_width="140dp"
         android:layout_height="50dp"
-        android:layout_above="@+id/btn_ancoin"
+        android:layout_above="@+id/btn_huongdan"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="5dp"
         android:background="@drawable/btn_start_game"
         android:text="Bắt Đầu Chơi" />
 
-    <Button
-        android:id="@+id/btn_ancoin"
-        android:layout_width="140dp"
-        android:layout_height="50dp"
-        android:layout_above="@+id/btn_huongdan"
-        android:layout_alignLeft="@+id/btn_stargame"
-        android:layout_marginBottom="5dp"
-        android:background="@drawable/btn_start_game"
-        android:text="Nhận Điểm" />
+    
 
     <Button
         android:id="@+id/btn_huongdan"

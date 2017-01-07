@@ -2,56 +2,155 @@
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:background="#708090" >
-    
-    <RelativeLayout 
-        android:layout_width="wrap_content"
-        android:layout_height="100dp"
-        android:background="@drawable/anhnen3">
-        
-    
 
-    <TextView 
-        android:id="@+id/txt_ncc"
+    <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Thông Tin"
-        android:layout_centerInParent="true"
-        android:textStyle="bold"
-        android:layout_alignParentTop="true"
-        android:textColor="#1C1C1C"/>
-    <RelativeLayout 
-        android:id="@+id/layout_info"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/txt_ncc"
-        android:layout_marginTop="10px">
-        <TextView 
-            android:id="@+id/txt_name"
+        android:background="@drawable/backgroup_info"
+        android:orientation="vertical" >
+
+        <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Tên	: Nguyen Van Dong "
-            android:layout_marginLeft="5dp"
-             android:textColor="#1C1C1C"
-              android:textStyle="bold"/>
-        <TextView 
-            android:layout_width="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="3dp"
+            android:gravity="center_horizontal"
+            android:padding="3dp"
+            android:text="Thông Tin"
+            android:textColor="#1C1C1C"
+            android:textStyle="bold" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Email	: nvdong1108@outlook.com"
-            android:layout_below="@+id/txt_name"
-            android:layout_marginTop="10dp"
-            android:layout_marginLeft="5dp"
-             android:textColor="#1C1C1C"
-              android:textStyle="bold"/>
-        
-        <ImageView 
-            android:layout_width="40dp"
-            android:layout_height="60dp"
-            android:src="@drawable/nvdong"
-            android:layout_alignParentRight="true"
-            android:layout_marginRight="10dp"/>
-        
-    </RelativeLayout>
-    
-    </RelativeLayout>
-    
+            android:layout_marginLeft="16dp"
+            android:orientation="horizontal"
+            android:padding="2dp" >
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="25dp"
+                android:src="@drawable/ic_launcher" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="3dp"
+                android:padding="2dp"
+                android:text="Nhìn Hình Đoán Chữ 2017-Version: 1.3 - 22/01/2016"
+                android:textColor="#1C1C1C" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="26dp"
+            android:orientation="horizontal"
+            android:padding="2dp" >
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_chplay" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="3dp"
+                android:padding="2dp"
+                android:text="SV Tôn Đức Thắng"
+                android:textColor="#1C1C1C" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="18dp"
+            android:orientation="horizontal"
+            android:padding="2dp" >
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_email" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="3dp"
+                android:padding="2dp"
+                android:text=" nguyenvandong1108@gmail.com"
+                android:textColor="#1C1C1C" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="14dp"
+            android:orientation="horizontal"
+            android:padding="2dp" >
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_facebook" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="3dp"
+                android:padding="2dp"
+                android:text=" /anh.ku.16752"
+                android:textColor="#1C1C1C" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:orientation="horizontal"
+            android:padding="2dp" >
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_twitter" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="3dp"
+                android:padding="2dp"
+                android:text=" https://twitter.com/VanDong1108"
+                android:textColor="#1C1C1C" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="6dp"
+            android:orientation="horizontal"
+            android:padding="2dp" >
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_website" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="3dp"
+                android:padding="2dp"
+                android:text=" http://dongdalat.com/"
+                android:textColor="#1C1C1C" />
+        </LinearLayout>
+    </LinearLayout>
+
 </RelativeLayout>

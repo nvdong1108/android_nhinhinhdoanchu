@@ -43,7 +43,10 @@ public class ChienThang extends Activity implements OnClickListener {
 		inters.loadAd(adRequest);
 		//
 		AnhXa();
-		XuatDapAn(g.level - 1);
+
+		Bundle extras = getIntent().getExtras();
+		extras.getString("dapan");
+		txt_dapan.setText(extras.getString("dapan"));
 		NhacVotay = new MediaPlayer().create(this, R.raw.nhacvotay2);
 		NhacVotay.start();
 		btn_next.setOnClickListener(this);
@@ -53,7 +56,7 @@ public class ChienThang extends Activity implements OnClickListener {
 	public void AnhXa() {
 		btn_next = (LinearLayout) findViewById(R.id.btn_next_leve);
 		txt_dapan = (TextView) findViewById(R.id.txt_ketqua);
-		face = Typeface.createFromAsset(getAssets(), "font/BOOKOS.TTF");
+		face = Typeface.createFromAsset(getAssets(), "font/TIMESBD.TTF");
 		txt_dapan.setTypeface(face);
 	}
 
@@ -66,104 +69,6 @@ public class ChienThang extends Activity implements OnClickListener {
 
 		}
 
-	}
-
-	public void XuatDapAn(int lv) {
-		switch (lv) {
-		case 1:
-			txt_dapan.setText("NGỰA Ô");
-			break;
-		case 2:
-			txt_dapan.setText("THÔNG LỆ");
-			break;
-		case 3:
-			txt_dapan.setText("SAO BĂNG");
-			break;
-		case 4:
-			txt_dapan.setText("Ý TỨ");
-			break;
-		case 5:
-			txt_dapan.setText("HO GÀ");
-			break;
-		case 6:
-			txt_dapan.setText("HÀO HỨNG");
-			break;
-		case 7:
-			txt_dapan.setText("CAU CÓ");
-			break;
-		case 8:
-			txt_dapan.setText("Cá Tính");
-			break;
-		case 9:
-			txt_dapan.setText("TRANH CƯỚP");
-			break;
-		case 10:
-			txt_dapan.setText("CÒ CỬA ");
-			break;
-		case 11:
-			txt_dapan.setText("Y Tá");
-			break;
-		case 12:
-			txt_dapan.setText("HÓA VÀNG");
-			break;
-		case 13:
-			txt_dapan.setText("TAN CA");
-			break;
-		case 14:
-			txt_dapan.setText("THIẾU NIÊN");
-			break;
-		case 15:
-			txt_dapan.setText("THĂNG HOA");
-			break;
-		case 16:
-			txt_dapan.setText("TÊ THẤP");
-			break;
-		case 17:
-			txt_dapan.setText("THÚ THẬT");
-			break;
-		case 18:
-			txt_dapan.setText("NHỊ CA");
-			break;
-		case 19:
-			txt_dapan.setText("HỌA TIẾT");
-			break;
-		case 20:
-			txt_dapan.setText("SĂN SÓC");
-			break;
-		case 21:
-			txt_dapan.setText("VÔ TƯ");
-			break;
-		case 22:
-			txt_dapan.setText("ÔNG BẦU");
-			break;
-		case 23:
-			txt_dapan.setText("CẦN CẨU");
-			break;
-		case 24:
-			txt_dapan.setText("CÃI CỌ");
-			break;
-		case 25:
-			txt_dapan.setText("BI �?AO");
-			break;
-		case 26:
-			txt_dapan.setText("PHÂN VÂN");
-			break;
-		case 27:
-			txt_dapan.setText("HEO HÚT");
-			break;
-		case 28:
-			txt_dapan.setText("DAO LAM");
-			break;
-		case 29:
-			txt_dapan.setText("TÙ MÙ");
-			break;
-		case 30:
-			txt_dapan.setText("NHIỆT HUYẾT");
-			break;
-
-		default:
-			break;
-		}
 	}
 
 	@Override

@@ -1,11 +1,14 @@
 package com.nvd.duoihinhbatchu;
 
 import java.util.ArrayList;
+import java.util.Random;
 
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 import com.google.android.gms.ads.InterstitialAd;
+import com.nvd.database.ManagerSqlite;
 import com.nvd.duoihinhbatchu.R.layout;
+import com.nvd.objcauhoi.Cauhoi;
 
 import android.app.Activity;
 
@@ -31,8 +34,13 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 public class GAME extends Activity implements OnClickListener {
-
+	// gọi lớp
+	private ManagerSqlite managersqllite;
 	private ManagarGAME m;
+	private int size_ChuDaChon;
+	private ArrayList<String> ARR_DAPAN;
+	private Cauhoi CAUHOI;
+	//
 	private ArrayList<String> dsOChuDapAn;
 	public static int level;
 	public static int diem;
@@ -40,6 +48,9 @@ public class GAME extends Activity implements OnClickListener {
 	public TextView btn_diem;
 	private Typeface face;
 	private ImageView home;
+	private ImageView ic_audio_off;
+	private ImageView ic_audio_on;
+	private SharedPreferences pre;
 	//
 	public ImageView img_cauhoi;
 	private ImageView icon_help;
@@ -76,7 +87,7 @@ public class GAME extends Activity implements OnClickListener {
 	//
 	private Dialog dialog;
 	private TextView btn_help_first;
-	
+
 	private int number_help;
 	public MediaPlayer nhacnen;
 	public MediaPlayer nhacchienthang;
@@ -97,25 +108,24 @@ public class GAME extends Activity implements OnClickListener {
 				.addTestDevice("CC5F2C72DF2B356BBF0DA198").build();
 		adview.loadAd(adRequest);
 		inters.loadAd(adRequest);
-
-		//
+		// khai báo lớp manager
 		m = new ManagarGAME();
-		SharedPreferences pre = getSharedPreferences("mydata", MODE_PRIVATE);
-		//
-		level = pre.getInt("numberlevel", 1);
-		diem = pre.getInt("numberDiem", 1);
-		//
+		// Khai báo nhạc nền
 		nhacnen = new MediaPlayer().create(this, R.raw.nhactronggame);
-		nhacnen.start();
-		//
+		// vào hàm ánh xạ
 		AnhXa();
-		GetLevel(level);
+		// bắt đầu game với câu đang chơi
+		// GetLevel(level);
+
+		showgame(level);
 
 		/*
 		 * sự kiện trên thạnh công cụng trên cùng home , âm thanh , trợ giúp
 		 */
 		icon_help.setOnClickListener(this);
 		home.setOnClickListener(this);
+		ic_audio_off.setOnClickListener(this);
+		ic_audio_on.setOnClickListener(this);
 		// bắt sự kiện
 		btn_ogy_1.setOnClickListener(this);
 		btn_ogy_2.setOnClickListener(this);
@@ -154,7 +164,7 @@ public class GAME extends Activity implements OnClickListener {
 	@Override
 	protected void onPause() {
 		super.onPause();
-		SharedPreferences pre = getSharedPreferences("mydata", MODE_PRIVATE);
+		pre = getSharedPreferences("mydata", MODE_PRIVATE);
 		SharedPreferences.Editor edit = pre.edit();
 		edit.putInt("numberlevel", level);
 		edit.putInt("numberDiem", diem);
@@ -165,7 +175,7 @@ public class GAME extends Activity implements OnClickListener {
 	protected void onStop() {
 		// TODO Auto-generated method stub
 		super.onStop();
-		SharedPreferences pre = getSharedPreferences("mydata", MODE_PRIVATE);
+		pre = getSharedPreferences("mydata", MODE_PRIVATE);
 		SharedPreferences.Editor edit = pre.edit();
 		edit.putInt("numberlevel", level);
 		edit.putInt("numberDiem", diem);
@@ -252,6 +262,24 @@ public class GAME extends Activity implements OnClickListener {
 		btn_okq_13.setTypeface(face);
 		btn_okq_14.setTypeface(face);
 		//
+		/*
+		 * check speak on or off
+		 */
+		ic_audio_off = (ImageView) findViewById(R.id.icon_audio_off);
+		ic_audio_on = (ImageView) findViewById(R.id.icon_audio_on);
+		pre = getSharedPreferences("mydata", MODE_PRIVATE);
+		//
+		level = pre.getInt("numberlevel", 1);
+		diem = pre.getInt("numberDiem", 100);
+		if (pre.getBoolean("speak", true)) {
+			ic_audio_off.setVisibility(View.GONE);
+			ic_audio_on.setVisibility(View.VISIBLE);
+			nhacnen.start();
+		} else {
+			ic_audio_off.setVisibility(View.VISIBLE);
+			ic_audio_on.setVisibility(View.GONE);
+
+		}
 
 		return true;
 	}
@@ -261,6 +289,8 @@ public class GAME extends Activity implements OnClickListener {
 		m = new ManagarGAME();
 
 		if (v == icon_help) {
+			// click vaof icon help
+
 			if (diem < 20) {
 				Toast.makeText(getApplicationContext(),
 						"Bạn Không đủ điểm để được trợ giúp !!! ",
@@ -275,7 +305,16 @@ public class GAME extends Activity implements OnClickListener {
 				dialog.setCancelable(false);
 				dialog.show();
 				btn_help_first = (TextView) dialog
-						.findViewById(R.id.btn_help_fistWord);
+						.findViewById(R.id.ic_oke_dialog_help);
+				Button btn_dong = (Button) dialog
+						.findViewById(R.id.ic_no_dialog_help);
+				btn_dong.setOnClickListener(new OnClickListener() {
+
+					@Override
+					public void onClick(View arg0) {
+						dialog.dismiss();
+					}
+				});
 
 				btn_help_first.setOnClickListener(new View.OnClickListener() {
 					@Override
@@ -294,6 +333,10 @@ public class GAME extends Activity implements OnClickListener {
 							btn_okq_3.setText(dsOChuDapAn.get(2));
 							XoaButton_help(btn_okq_3.getText().toString());
 							break;
+						case 3:
+							btn_okq_4.setText(dsOChuDapAn.get(3));
+							XoaButton_help(btn_okq_4.getText().toString());
+							break;
 						default:
 							break;
 						}
@@ -308,140 +351,306 @@ public class GAME extends Activity implements OnClickListener {
 			}
 
 		} else if (v == home) {
+			// click vao icon home
+			nhacnen.stop();
 			Intent home = new Intent(this, MainActivity.class);
 			startActivity(home);
+		}
+		if (v == ic_audio_on) {
+			ic_audio_on.setVisibility(View.GONE);
+			ic_audio_off.setVisibility(View.VISIBLE);
+			nhacnen.pause();
+			SharedPreferences.Editor edit = pre.edit();
+			edit.putBoolean("speak", false);
+			edit.commit();
+
+		}
+		if (v == ic_audio_off) {
+			ic_audio_on.setVisibility(View.VISIBLE);
+			ic_audio_off.setVisibility(View.GONE);
+			nhacnen.start();
+			SharedPreferences.Editor edit = pre.edit();
+			edit.putBoolean("speak", true);
+			edit.commit();
 		}
 		//
 		if (v == btn_ogy_1 && GhiKetQua(btn_ogy_1.getText().toString())) {
 			btn_ogy_1.setVisibility(View.INVISIBLE);
-			m.leght_DapAn--;
-			if (m.leght_DapAn < 1)
+			size_ChuDaChon--;
+			if (size_ChuDaChon < 1)
 				KiemTraDapAn();
 		} else if (v == btn_ogy_2 && GhiKetQua(btn_ogy_2.getText().toString())) {
 			btn_ogy_2.setVisibility(View.INVISIBLE);
-			m.leght_DapAn--;
-			if (m.leght_DapAn < 1)
+			size_ChuDaChon--;
+			if (size_ChuDaChon < 1)
 				KiemTraDapAn();
 		} else if (v == btn_ogy_3 && GhiKetQua(btn_ogy_3.getText().toString())) {
 			btn_ogy_3.setVisibility(View.INVISIBLE);
-			m.leght_DapAn--;
-			if (m.leght_DapAn < 1)
+			size_ChuDaChon--;
+			if (size_ChuDaChon < 1)
 				KiemTraDapAn();
 		} else if (v == btn_ogy_4 && GhiKetQua(btn_ogy_4.getText().toString())) {
 			btn_ogy_4.setVisibility(View.INVISIBLE);
-			m.leght_DapAn--;
-			if (m.leght_DapAn < 1)
+			size_ChuDaChon--;
+			if (size_ChuDaChon < 1)
 				KiemTraDapAn();
 		} else if (v == btn_ogy_5 && GhiKetQua(btn_ogy_5.getText().toString())) {
 			btn_ogy_5.setVisibility(View.INVISIBLE);
-			m.leght_DapAn--;
-			if (m.leght_DapAn < 1)
+			size_ChuDaChon--;
+			if (size_ChuDaChon < 1)
 				KiemTraDapAn();
 		} else if (v == btn_ogy_6 && GhiKetQua(btn_ogy_6.getText().toString())) {
 			btn_ogy_6.setVisibility(View.INVISIBLE);
-			m.leght_DapAn--;
-			if (m.leght_DapAn < 1)
+			size_ChuDaChon--;
+			if (size_ChuDaChon < 1)
 				KiemTraDapAn();
 		} else if (v == btn_ogy_7 && GhiKetQua(btn_ogy_7.getText().toString())) {
 			btn_ogy_7.setVisibility(View.INVISIBLE);
-			m.leght_DapAn--;
-			if (m.leght_DapAn < 1)
+			size_ChuDaChon--;
+			if (size_ChuDaChon < 1)
 				KiemTraDapAn();
 		} else if (v == btn_ogy_8 && GhiKetQua(btn_ogy_8.getText().toString())) {
 			btn_ogy_8.setVisibility(View.INVISIBLE);
-			m.leght_DapAn--;
-			if (m.leght_DapAn < 1)
+			size_ChuDaChon--;
+			if (size_ChuDaChon < 1)
 				KiemTraDapAn();
 		} else if (v == btn_ogy_9 && GhiKetQua(btn_ogy_9.getText().toString())) {
 			btn_ogy_9.setVisibility(View.INVISIBLE);
-			m.leght_DapAn--;
-			if (m.leght_DapAn < 1)
+			size_ChuDaChon--;
+			if (size_ChuDaChon < 1)
 				KiemTraDapAn();
 		} else if (v == btn_ogy_10
 				&& GhiKetQua(btn_ogy_10.getText().toString())) {
 			btn_ogy_10.setVisibility(View.INVISIBLE);
-			m.leght_DapAn--;
-			if (m.leght_DapAn < 1)
+			size_ChuDaChon--;
+			if (size_ChuDaChon < 1)
 				KiemTraDapAn();
 		} else if (v == btn_ogy_11
 				&& GhiKetQua(btn_ogy_11.getText().toString())) {
 			btn_ogy_11.setVisibility(View.INVISIBLE);
-			m.leght_DapAn--;
-			if (m.leght_DapAn < 1)
+			size_ChuDaChon--;
+			if (size_ChuDaChon < 1)
 				KiemTraDapAn();
 		} else if (v == btn_ogy_12
 				&& GhiKetQua(btn_ogy_12.getText().toString())) {
 			btn_ogy_12.setVisibility(View.INVISIBLE);
-			m.leght_DapAn--;
-			if (m.leght_DapAn < 1)
+			size_ChuDaChon--;
+			if (size_ChuDaChon < 1)
 				KiemTraDapAn();
 		} else if (v == btn_ogy_13
 				&& GhiKetQua(btn_ogy_13.getText().toString())) {
 			btn_ogy_13.setVisibility(View.INVISIBLE);
-			m.leght_DapAn--;
-			if (m.leght_DapAn < 1)
+			size_ChuDaChon--;
+			if (size_ChuDaChon < 1)
 				KiemTraDapAn();
 		} else if (v == btn_ogy_14
 				&& GhiKetQua(btn_ogy_14.getText().toString())) {
 			btn_ogy_14.setVisibility(View.INVISIBLE);
-			m.leght_DapAn--;
-			if (m.leght_DapAn < 1)
+			size_ChuDaChon--;
+			if (size_ChuDaChon < 1)
 				KiemTraDapAn();
 		}
 		//
 		//
 		else if (v == btn_okq_1 && XoaOChu(btn_okq_1.getText().toString())) {
 			btn_okq_1.setText("");
-			m.leght_DapAn++;
+			size_ChuDaChon++;
 			if (number_help > 0)
 				number_help--;
 
 		} else if (v == btn_okq_2 && XoaOChu(btn_okq_2.getText().toString())) {
 			btn_okq_2.setText("");
-			m.leght_DapAn++;
+			size_ChuDaChon++;
 			if (number_help > 0)
 				number_help--;
 		} else if (v == btn_okq_3 && XoaOChu(btn_okq_3.getText().toString())) {
 			btn_okq_3.setText("");
-			m.leght_DapAn++;
+			size_ChuDaChon++;
 			if (number_help > 0)
 				number_help--;
 		} else if (v == btn_okq_4 && XoaOChu(btn_okq_4.getText().toString())) {
 			btn_okq_4.setText("");
-			m.leght_DapAn++;
+			size_ChuDaChon++;
+			if (number_help > 0)
+				number_help--;
 		} else if (v == btn_okq_5 && XoaOChu(btn_okq_5.getText().toString())) {
 			btn_okq_5.setText("");
-			m.leght_DapAn++;
+			size_ChuDaChon++;
+			if (number_help > 0)
+				number_help--;
 		} else if (v == btn_okq_6 && XoaOChu(btn_okq_6.getText().toString())) {
 			btn_okq_6.setText("");
-			m.leght_DapAn++;
+			size_ChuDaChon++;
+			if (number_help > 0)
+				number_help--;
 		} else if (v == btn_okq_7 && XoaOChu(btn_okq_7.getText().toString())) {
 			btn_okq_7.setText("");
-			m.leght_DapAn++;
+			size_ChuDaChon++;
+			if (number_help > 0)
+				number_help--;
 		} else if (v == btn_okq_8 && XoaOChu(btn_okq_8.getText().toString())) {
 			btn_okq_8.setText("");
-			m.leght_DapAn++;
+			size_ChuDaChon++;
+			if (number_help > 0)
+				number_help--;
 		} else if (v == btn_okq_9 && XoaOChu(btn_okq_9.getText().toString())) {
 			btn_okq_9.setText("");
-			m.leght_DapAn++;
+			size_ChuDaChon++;
+			if (number_help > 0)
+				number_help--;
 		} else if (v == btn_okq_10 && XoaOChu(btn_okq_10.getText().toString())) {
 			btn_okq_10.setText("");
-			m.leght_DapAn++;
+			size_ChuDaChon++;
+			if (number_help > 0)
+				number_help--;
 		} else if (v == btn_okq_11 && XoaOChu(btn_okq_11.getText().toString())) {
 			btn_okq_12.setText("");
-			m.leght_DapAn++;
+			size_ChuDaChon++;
+			if (number_help > 0)
+				number_help--;
 		} else if (v == btn_okq_12 && XoaOChu(btn_okq_12.getText().toString())) {
 			btn_okq_12.setText("");
-			m.leght_DapAn++;
+			size_ChuDaChon++;
+			if (number_help > 0)
+				number_help--;
 		} else if (v == btn_okq_13 && XoaOChu(btn_okq_13.getText().toString())) {
 			btn_okq_13.setText("");
-			m.leght_DapAn++;
+			size_ChuDaChon++;
+			if (number_help > 0)
+				number_help--;
 		} else if (v == btn_okq_14 && XoaOChu(btn_okq_14.getText().toString())) {
 			btn_okq_14.setText("");
-			m.leght_DapAn++;
+			size_ChuDaChon++;
+			if (number_help > 0)
+				number_help--;
 		} else {
 
 		}
+
+	}
+
+	public void showgame(int id) {
+		//
+
+		//
+		managersqllite = new ManagerSqlite(getApplication());
+		managersqllite.opentdatabase();
+
+		managersqllite.UpdateImageView(R.drawable.binhma, 1);
+		managersqllite.UpdateImageView(R.drawable.tranhsondau, 2);
+		managersqllite.UpdateImageView(R.drawable.toida, 3);
+		managersqllite.UpdateImageView(R.drawable.dongdao, 4);
+		managersqllite.UpdateImageView(R.drawable.haohung, 5);
+		//
+		managersqllite.UpdateImageView(R.drawable.camcannhaymuc, 6);
+		managersqllite.UpdateImageView(R.drawable.tuongtuong, 7);
+		managersqllite.UpdateImageView(R.drawable.ngucoc, 8);
+		managersqllite.UpdateImageView(R.drawable.bitruyen, 9);
+		managersqllite.UpdateImageView(R.drawable.totien, 10);
+		//
+		managersqllite.UpdateImageView(R.drawable.maimoi, 11);
+		managersqllite.UpdateImageView(R.drawable.donglong, 12);
+		managersqllite.UpdateImageView(R.drawable.baobi, 13);
+		managersqllite.UpdateImageView(R.drawable.hoclienthong, 14);
+		managersqllite.UpdateImageView(R.drawable.chithi, 15);
+		//
+		managersqllite.UpdateImageView(R.drawable.bibach, 16);
+		managersqllite.UpdateImageView(R.drawable.saobang, 17);
+		managersqllite.UpdateImageView(R.drawable.giatrentroi, 18);
+		managersqllite.UpdateImageView(R.drawable.tongtulenh, 19);
+		managersqllite.UpdateImageView(R.drawable.baohanh, 20);
+		//
+		managersqllite.UpdateImageView(R.drawable.bosung, 21);
+		managersqllite.UpdateImageView(R.drawable.maclua, 22);
+		managersqllite.UpdateImageView(R.drawable.thutuong, 23);
+		managersqllite.UpdateImageView(R.drawable.dancataitu, 24);
+		managersqllite.UpdateImageView(R.drawable.somui, 25);
+		//
+		managersqllite.UpdateImageView(R.drawable.giaithich, 26);
+		managersqllite.UpdateImageView(R.drawable.cannao, 27);
+		managersqllite.UpdateImageView(R.drawable.tutung, 28);
+		managersqllite.UpdateImageView(R.drawable.sodaohoa, 29);
+		managersqllite.UpdateImageView(R.drawable.ytu, 30);
+		//
+		managersqllite.UpdateImageView(R.drawable.thatkinh, 31);
+		managersqllite.UpdateImageView(R.drawable.dainhan, 32);
+		managersqllite.UpdateImageView(R.drawable.giantiep, 33);
+		managersqllite.UpdateImageView(R.drawable.lichthiep, 34);
+		managersqllite.UpdateImageView(R.drawable.thieuta, 35);
+		//
+		managersqllite.UpdateImageView(R.drawable.hanhhung, 36);
+
+		CAUHOI = new Cauhoi();
+		CAUHOI = managersqllite.getCauHoi(level);
+		// // set dữ liệu cho câu hỏi
+		// set level cho game la số id của câu hỏi
+		btn_numberlevel.setText(CAUHOI.getId() + "");
+		// // set hình ảnh cho câu hỏi
+		img_cauhoi.setImageResource(CAUHOI.getHinhanh());
+		// // set số lượng ô số cho câu hỏi
+		size_ChuDaChon = CAUHOI.getDapan().length();
+		HienButtonODapAn(CAUHOI.getDapan().length());
+		// hiện ô chữ gợi ý
+		ranDomTuGoiY(CAUHOI.getDapan());
+
+	}
+
+	// 13 ,12 ,11,10,9,8
+	public void ranDomTuGoiY(String dapan) {
+
+		ArrayList<String> M = new ArrayList<String>();
+
+		char[] ds = { 'A', 'A', 'A', 'A', 'A', 'A', 'A', 'A', 'A', 'A', 'A',
+				'A', 'A', 'A' };
+
+		ds = dapan.toCharArray();
+		for (int i = 0; i < ds.length; i++) {
+			M.add(ds[i] + "");
+		}
+
+		Random rd = new Random();
+		for (int i = ds.length; i < 14; i++) {
+			M.add((char) (rd.nextInt(25) + 65) + "");
+		}
+		// đảo mảng
+		String tmp;
+		int a, b, c;
+		for (int i = 0; i < 20; i++) {
+			a = rd.nextInt(7);
+			b = rd.nextInt(14);
+			tmp = M.get(a);
+			M.set(a, M.get(b));
+			M.set(b, tmp);
+		}
+		btn_ogy_1.setVisibility(View.VISIBLE);
+		btn_ogy_2.setVisibility(View.VISIBLE);
+		btn_ogy_3.setVisibility(View.VISIBLE);
+		btn_ogy_4.setVisibility(View.VISIBLE);
+		btn_ogy_5.setVisibility(View.VISIBLE);
+		btn_ogy_6.setVisibility(View.VISIBLE);
+		btn_ogy_7.setVisibility(View.VISIBLE);
+		btn_ogy_8.setVisibility(View.VISIBLE);
+		btn_ogy_9.setVisibility(View.VISIBLE);
+		btn_ogy_10.setVisibility(View.VISIBLE);
+		btn_ogy_11.setVisibility(View.VISIBLE);
+		btn_ogy_12.setVisibility(View.VISIBLE);
+		btn_ogy_13.setVisibility(View.VISIBLE);
+		btn_ogy_14.setVisibility(View.VISIBLE);
+		//
+		btn_ogy_1.setText(M.get(0) + "");
+		btn_ogy_2.setText(M.get(1) + "");
+		btn_ogy_3.setText(M.get(2) + "");
+		btn_ogy_4.setText(M.get(3) + "");
+		btn_ogy_5.setText(M.get(4) + "");
+		btn_ogy_6.setText(M.get(5) + "");
+		btn_ogy_7.setText(M.get(6) + "");
+		btn_ogy_8.setText(M.get(7) + "");
+		btn_ogy_9.setText(M.get(8) + "");
+		btn_ogy_10.setText(M.get(9) + "");
+		btn_ogy_11.setText(M.get(10) + "");
+		btn_ogy_12.setText(M.get(11) + "");
+		btn_ogy_13.setText(M.get(12) + "");
+		btn_ogy_14.setText(M.get(13) + "");
 
 	}
 
@@ -549,6 +758,7 @@ public class GAME extends Activity implements OnClickListener {
 		img_cauhoi.setImageDrawable(dram);
 		dsOChuGoiY = m.TaoDSOChuGoiY(lv);
 		setDsOChuDapAn(m.TaoDSOChuDapAn(lv));
+
 		setButtonOGoiY(dsOChuGoiY);
 		//
 		HienButtonODapAn(m.leght_DapAn);
@@ -773,26 +983,26 @@ public class GAME extends Activity implements OnClickListener {
 	public void KiemTraDapAn() {
 		LayoutInflater inflater = getLayoutInflater();
 		View layout = inflater.inflate(R.layout.mycustomtoast_layout, null);
+		char[] ds = CAUHOI.getDapan().toCharArray();
 		//
-
-		if (btn_okq_1.getText().equals(dsOChuDapAn.get(0))
-				&& btn_okq_2.getText().equals(dsOChuDapAn.get(1))
-				&& btn_okq_3.getText().equals(dsOChuDapAn.get(2))
-				&& btn_okq_4.getText().equals(dsOChuDapAn.get(3))
-				&& btn_okq_5.getText().equals(dsOChuDapAn.get(4))
-				&& btn_okq_6.getText().equals(dsOChuDapAn.get(5))
-				&& btn_okq_7.getText().equals(dsOChuDapAn.get(6))
-				&& btn_okq_8.getText().equals(dsOChuDapAn.get(7))
-				&& btn_okq_9.getText().equals(dsOChuDapAn.get(8))
-				&& btn_okq_10.getText().equals(dsOChuDapAn.get(9))
-				&& btn_okq_11.getText().equals(dsOChuDapAn.get(10))
-				&& btn_okq_12.getText().equals(dsOChuDapAn.get(11))
-				&& btn_okq_13.getText().equals(dsOChuDapAn.get(12))
-				&& btn_okq_14.getText().equals(dsOChuDapAn.get(13))) {
+		String dapan = btn_okq_1.getText().toString()
+				+ btn_okq_2.getText().toString()
+				+ btn_okq_3.getText().toString()
+				+ btn_okq_4.getText().toString()
+				+ btn_okq_5.getText().toString()
+				+ btn_okq_6.getText().toString()
+				+ btn_okq_7.getText().toString()
+				+ btn_okq_8.getText().toString()
+				+ btn_okq_9.getText().toString()
+				+ btn_okq_10.getText().toString()
+				+ btn_okq_11.getText().toString()
+				+ btn_okq_12.getText().toString()
+				+ btn_okq_13.getText().toString()
+				+ btn_okq_14.getText().toString() + "";
+		if (dapan.equals(CAUHOI.getDapan())) {
 			/*
 			 * thong báo kết quả
 			 */
-
 			//
 			level = level + 1;
 			diem = diem + 5;
@@ -801,6 +1011,8 @@ public class GAME extends Activity implements OnClickListener {
 			nhacchienthang.start();
 
 			Intent good = new Intent(GAME.this, ChienThang.class);
+			good.putExtra("id", CAUHOI.getId());
+			good.putExtra("dapan", CAUHOI.getKetqua());
 			startActivity(good);
 
 		} else {
@@ -846,6 +1058,7 @@ public class GAME extends Activity implements OnClickListener {
 
 			@Override
 			public void onClick(View arg0) {
+				nhacnen.stop();
 				// Khoi tao lai Activity main
 				Intent intent = new Intent(getApplicationContext(),
 						MainActivity.class);
