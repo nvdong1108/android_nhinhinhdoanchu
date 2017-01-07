@@ -86,7 +86,7 @@ public class GAME extends Activity implements OnClickListener {
 	public Button btn_ogy_14;
 	//
 	private Dialog dialog;
-	private TextView btn_help_first;
+	private TextView btn_oke_dialog_help;
 
 	private int number_help;
 	public MediaPlayer nhacnen;
@@ -114,6 +114,14 @@ public class GAME extends Activity implements OnClickListener {
 		nhacnen = new MediaPlayer().create(this, R.raw.nhactronggame);
 		// vào hàm ánh xạ
 		AnhXa();
+
+		if (pre.getBoolean("welcome", true)) {
+			SharedPreferences.Editor edit = pre.edit();
+			edit.putBoolean("welcome", false);
+			showwelcome();
+			edit.commit();
+		}
+
 		// bắt đầu game với câu đang chơi
 		// GetLevel(level);
 
@@ -159,6 +167,26 @@ public class GAME extends Activity implements OnClickListener {
 		//
 		registerForContextMenu(icon_help);
 		number_help = 0;
+	}
+
+	private void showwelcome() {
+		final Dialog dl;
+		dl = new Dialog(GAME.this, R.style.My_Dialog_Theme);
+		dl.setContentView(R.layout.gioithieu);
+		dl.getWindow().setLayout(LayoutParams.MATCH_PARENT,
+				LayoutParams.WRAP_CONTENT);
+		dl.setCanceledOnTouchOutside(false);
+		dl.setCancelable(false);
+		dl.show();
+		Button btndong = (Button) dl.findViewById(R.id.btn_dong_dialog_welcome);
+		btndong.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View arg0) {
+				dl.dismiss();
+
+			}
+		});
 	}
 
 	@Override
@@ -271,6 +299,7 @@ public class GAME extends Activity implements OnClickListener {
 		//
 		level = pre.getInt("numberlevel", 1);
 		diem = pre.getInt("numberDiem", 100);
+		btn_diem.setText(diem + "");
 		if (pre.getBoolean("speak", true)) {
 			ic_audio_off.setVisibility(View.GONE);
 			ic_audio_on.setVisibility(View.VISIBLE);
@@ -293,7 +322,7 @@ public class GAME extends Activity implements OnClickListener {
 
 			if (diem < 20) {
 				Toast.makeText(getApplicationContext(),
-						"Bạn Không đủ điểm để được trợ giúp !!! ",
+						"Bạn cần có 20 điểm để được trợ giúp nhé !!! ",
 						Toast.LENGTH_LONG).show();
 			} else {
 
@@ -304,7 +333,7 @@ public class GAME extends Activity implements OnClickListener {
 				dialog.setCanceledOnTouchOutside(false);
 				dialog.setCancelable(false);
 				dialog.show();
-				btn_help_first = (TextView) dialog
+				btn_oke_dialog_help = (TextView) dialog
 						.findViewById(R.id.ic_oke_dialog_help);
 				Button btn_dong = (Button) dialog
 						.findViewById(R.id.ic_no_dialog_help);
@@ -316,37 +345,55 @@ public class GAME extends Activity implements OnClickListener {
 					}
 				});
 
-				btn_help_first.setOnClickListener(new View.OnClickListener() {
-					@Override
-					public void onClick(View v) {
+				btn_oke_dialog_help
+						.setOnClickListener(new View.OnClickListener() {
+							@Override
+							public void onClick(View v) {
 
-						switch (number_help) {
-						case 0:
-							btn_okq_1.setText(dsOChuDapAn.get(0));
-							XoaButton_help(btn_okq_1.getText().toString());
-							break;
-						case 1:
-							btn_okq_2.setText(dsOChuDapAn.get(1));
-							XoaButton_help(btn_okq_2.getText().toString());
-							break;
-						case 2:
-							btn_okq_3.setText(dsOChuDapAn.get(2));
-							XoaButton_help(btn_okq_3.getText().toString());
-							break;
-						case 3:
-							btn_okq_4.setText(dsOChuDapAn.get(3));
-							XoaButton_help(btn_okq_4.getText().toString());
-							break;
-						default:
-							break;
-						}
-						dialog.cancel();
-						diem = diem - 12;
-						btn_diem.setText(diem + "");
-						m.leght_DapAn--;
-						number_help++;
-					}
-				});
+								char[] M = CAUHOI.getDapan().toCharArray();
+
+								switch (number_help) {
+								case 0:
+									btn_okq_1.setText(M[0] + "");
+									XoaButton_help(btn_okq_1.getText()
+											.toString());
+									size_ChuDaChon--;
+									if (size_ChuDaChon < 1)
+										KiemTraDapAn();
+									break;
+								case 1:
+									btn_okq_2.setText(M[1] + "");
+									XoaButton_help(btn_okq_2.getText()
+											.toString());
+									size_ChuDaChon--;
+									if (size_ChuDaChon < 1)
+										KiemTraDapAn();
+									break;
+								case 2:
+									btn_okq_3.setText(M[2] + "");
+									XoaButton_help(btn_okq_3.getText()
+											.toString());
+									size_ChuDaChon--;
+									if (size_ChuDaChon < 1)
+										KiemTraDapAn();
+									break;
+								case 3:
+									btn_okq_4.setText(M[4] + "");
+									XoaButton_help(btn_okq_4.getText()
+											.toString());
+									size_ChuDaChon--;
+									if (size_ChuDaChon < 1)
+										KiemTraDapAn();
+									break;
+								default:
+									break;
+								}
+								dialog.dismiss();
+								diem = diem - 20;
+								btn_diem.setText(diem + "");
+								number_help++;
+							}
+						});
 
 			}
 
@@ -1005,10 +1052,11 @@ public class GAME extends Activity implements OnClickListener {
 			 */
 			//
 			level = level + 1;
-			diem = diem + 5;
+			diem = diem + 10;
 			nhacchienthang = new MediaPlayer().create(this,
 					R.raw.nhacchienthang);
 			nhacchienthang.start();
+			nhacnen.stop();
 
 			Intent good = new Intent(GAME.this, ChienThang.class);
 			good.putExtra("id", CAUHOI.getId());

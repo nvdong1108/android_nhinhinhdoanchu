@@ -85,7 +85,6 @@ public class ManagerSqlite extends SQLiteOpenHelper {
 
 	public void copydatabase() throws IOException {
 		if (!checkDataBase()) {
-			Toast.makeText(mContex, "welcomeaaaaaa", Toast.LENGTH_SHORT).show();
 			OutputStream myOutput = new FileOutputStream(path + name);
 			byte[] buffer = new byte[1024];
 			int length;
