@@ -5,6 +5,8 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.util.ArrayList;
+import java.util.Random;
 
 import com.nvd.objcauhoi.Cauhoi;
 
@@ -65,16 +67,68 @@ public class ManagerSqlite extends SQLiteOpenHelper {
 		db.execSQL(sql);
 	}
 
+	public void UpdateOgoiy(String dapan) {
+		//
+		ArrayList<String> M = new ArrayList<String>();
+
+		char[] ds = { 'A', 'A', 'A', 'A', 'A', 'A', 'A', 'A', 'A', 'A', 'A',
+				'A', 'A', 'A' };
+
+		ds = dapan.toCharArray();
+		for (int i = 0; i < ds.length; i++) {
+			M.add(ds[i] + "");
+		}
+
+		Random rd = new Random();
+		for (int i = ds.length; i < 14; i++) {
+			M.add((char) (rd.nextInt(25) + 65) + "");
+		}
+		// đảo mảng
+		String tmp;
+		int a, b, c;
+		for (int i = 0; i < 20; i++) {
+			a = rd.nextInt(7);
+			b = rd.nextInt(14);
+			tmp = M.get(a);
+			M.set(a, M.get(b));
+			M.set(b, tmp);
+		}
+		String retun = "";
+		for (int i = 0; i < 14; i++) {
+			retun = retun + M.get(i);
+		}
+		//
+		String sql = "UPDATE cauhoi SET goiy = '" + retun
+				+ "' WHERE  dapan = '" + dapan + "'";
+		SQLiteDatabase db = getWritableDatabase();
+		db.execSQL(sql);
+	}
+
 	public Cauhoi getCauHoi(int id) {
 		Cauhoi ch;
 		Cursor c = null;
 		c = database.query("cauhoi", null, "id=" + id + "", null, null, null,
 				null);
 		c.moveToNext();
-		ch = new Cauhoi(c.getInt(0), c.getInt(1), c.getString(2), "",
-				c.getString(4), "");
+		ch = new Cauhoi(c.getInt(0), c.getInt(1), c.getString(2),
+				c.getString(3), c.getString(4), "");
 		c.close();
 		return ch;
+	}
+
+	public ArrayList<Cauhoi> getALL() {
+		ArrayList<Cauhoi> arr = new ArrayList<Cauhoi>();
+		Cursor c = null;
+		c = database.query("cauhoi", null, null, null, null, null, null);
+		while (c.moveToNext()) {
+			Cauhoi ch;
+			ch = new Cauhoi(c.getInt(0), c.getInt(1), c.getString(2), "",
+					c.getString(4), "");
+			arr.add(ch);
+		}
+
+		c.close();
+		return arr;
 	}
 
 	public boolean checkDataBase() {
@@ -97,7 +151,7 @@ public class ManagerSqlite extends SQLiteOpenHelper {
 			myInput.close();
 			myOutput.flush();
 			myOutput.close();
-			Toast.makeText(mContex, "*** Copy data th�nh c�ng ***",
+			Toast.makeText(mContex, "*** Copy data thành công ***",
 					Toast.LENGTH_LONG).show();
 		} else
 			Toast.makeText(mContex, "Khong Copy", Toast.LENGTH_LONG).show();

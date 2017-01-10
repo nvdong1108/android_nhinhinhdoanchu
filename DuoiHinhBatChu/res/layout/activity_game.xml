@@ -313,7 +313,8 @@
             android:layout_margin="1dp"
             android:layout_toLeftOf="@+id/btn_ogy_2"
             android:background="@drawable/custom_btn_a_word"
-            android:text="D" />
+            android:text="D" 
+            />
         <!-- btn 2 của bảng -->
 
         <Button

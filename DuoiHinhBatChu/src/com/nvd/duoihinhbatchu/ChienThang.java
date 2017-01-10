@@ -9,12 +9,12 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Typeface;
-import android.media.MediaPlayer;
+
 import android.os.Bundle;
 
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.widget.Button;
+
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -23,7 +23,7 @@ public class ChienThang extends Activity implements OnClickListener {
 	private LinearLayout btn_next;
 	private TextView txt_dapan;
 	private Typeface face;
-	private MediaPlayer NhacVotay;
+
 	private InterstitialAd inters;
 	AdView adview;
 
@@ -31,7 +31,7 @@ public class ChienThang extends Activity implements OnClickListener {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_chien_thang);
-		GAME g = new GAME();
+
 		//
 		adview = (AdView) findViewById(R.id.adView);
 		inters = new InterstitialAd(ChienThang.this);
@@ -47,8 +47,6 @@ public class ChienThang extends Activity implements OnClickListener {
 		Bundle extras = getIntent().getExtras();
 		extras.getString("dapan");
 		txt_dapan.setText(extras.getString("dapan"));
-		NhacVotay = new MediaPlayer().create(this, R.raw.nhacvotay2);
-		NhacVotay.start();
 		btn_next.setOnClickListener(this);
 
 	}

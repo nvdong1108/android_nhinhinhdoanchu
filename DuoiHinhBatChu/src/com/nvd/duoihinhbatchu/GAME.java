@@ -16,10 +16,12 @@ import android.app.Dialog;
 import android.app.ActionBar.LayoutParams;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.media.MediaPlayer;
 import android.os.Bundle;
+import android.os.Handler;
 
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -36,10 +38,14 @@ import android.widget.Toast;
 public class GAME extends Activity implements OnClickListener {
 	// gọi lớp
 	private ManagerSqlite managersqllite;
-	private ManagarGAME m;
+
 	private int size_ChuDaChon;
-	private ArrayList<String> ARR_DAPAN;
+
 	private Cauhoi CAUHOI;
+	// khai bao da tien trinh
+	private Handler handler;
+	private Runmusic runmusics;
+
 	//
 	private ArrayList<String> dsOChuDapAn;
 	public static int level;
@@ -109,9 +115,10 @@ public class GAME extends Activity implements OnClickListener {
 		adview.loadAd(adRequest);
 		inters.loadAd(adRequest);
 		// khai báo lớp manager
-		m = new ManagarGAME();
+
 		// Khai báo nhạc nền
-		nhacnen = new MediaPlayer().create(this, R.raw.nhactronggame);
+		new MediaPlayer();
+		nhacnen = MediaPlayer.create(this, R.raw.nhactronggame);
 		// vào hàm ánh xạ
 		AnhXa();
 
@@ -124,8 +131,6 @@ public class GAME extends Activity implements OnClickListener {
 
 		// bắt đầu game với câu đang chơi
 		// GetLevel(level);
-
-		showgame(level);
 
 		/*
 		 * sự kiện trên thạnh công cụng trên cùng home , âm thanh , trợ giúp
@@ -166,7 +171,18 @@ public class GAME extends Activity implements OnClickListener {
 		btn_okq_14.setOnClickListener(this);
 		//
 		registerForContextMenu(icon_help);
-		number_help = 0;
+		showgame(level);
+	}
+
+	// lop tao da tien trinh chay nha khi ket thuc
+	public class Runmusic implements Runnable {
+
+		@Override
+		public void run() {
+			nhacnen.start();
+			handler.postDelayed(runmusics, 1);
+		}
+
 	}
 
 	private void showwelcome() {
@@ -196,17 +212,19 @@ public class GAME extends Activity implements OnClickListener {
 		SharedPreferences.Editor edit = pre.edit();
 		edit.putInt("numberlevel", level);
 		edit.putInt("numberDiem", diem);
+		edit.putInt("num_help", number_help);
 		edit.commit();
 	}
 
 	@Override
 	protected void onStop() {
-		// TODO Auto-generated method stub
+
 		super.onStop();
 		pre = getSharedPreferences("mydata", MODE_PRIVATE);
 		SharedPreferences.Editor edit = pre.edit();
 		edit.putInt("numberlevel", level);
 		edit.putInt("numberDiem", diem);
+		edit.putInt("num_help", number_help);
 		edit.commit();
 	}
 
@@ -214,8 +232,15 @@ public class GAME extends Activity implements OnClickListener {
 	 * 
 	 */
 	public boolean AnhXa() {
+		// lớp runmusic
+		runmusics = new Runmusic();
+		handler = new Handler();
 		// ẢNH
+		pre = getSharedPreferences("mydata", MODE_PRIVATE);
+		//
 		img_cauhoi = (ImageView) findViewById(R.id.img_cauhoi);
+		ic_audio_off = (ImageView) findViewById(R.id.icon_audio_off);
+		ic_audio_on = (ImageView) findViewById(R.id.icon_audio_on);
 		//
 		btn_numberlevel = (TextView) findViewById(R.id.btn_level);
 		btn_diem = (TextView) findViewById(R.id.btn_diem);
@@ -253,12 +278,8 @@ public class GAME extends Activity implements OnClickListener {
 		btn_ogy_13 = (Button) findViewById(R.id.btn_ogy_13);
 		btn_ogy_14 = (Button) findViewById(R.id.btn_ogy_14);
 		//
-
 		// tạo forn chữ
-		face = Typeface.createFromAsset(getAssets(), "font/ARIBLK.TTF"); // khai
-																			// bao
-																			// from
-																			// chư
+		face = Typeface.createFromAsset(getAssets(), "font/ARIBLK.TTF");
 		//
 		btn_ogy_1.setTypeface(face);
 		btn_ogy_2.setTypeface(face);
@@ -274,6 +295,21 @@ public class GAME extends Activity implements OnClickListener {
 		btn_ogy_12.setTypeface(face);
 		btn_ogy_13.setTypeface(face);
 		btn_ogy_14.setTypeface(face);
+		//
+		btn_okq_1.setTextColor(Color.parseColor("#009900"));
+		btn_okq_2.setTextColor(Color.parseColor("#009900"));
+		btn_okq_3.setTextColor(Color.parseColor("#009900"));
+		btn_okq_4.setTextColor(Color.parseColor("#009900"));
+		btn_okq_5.setTextColor(Color.parseColor("#009900"));
+		btn_okq_6.setTextColor(Color.parseColor("#009900"));
+		btn_okq_7.setTextColor(Color.parseColor("#009900"));
+		btn_okq_8.setTextColor(Color.parseColor("#009900"));
+		btn_okq_9.setTextColor(Color.parseColor("#009900"));
+		btn_okq_10.setTextColor(Color.parseColor("#009900"));
+		btn_okq_11.setTextColor(Color.parseColor("#009900"));
+		btn_okq_12.setTextColor(Color.parseColor("#009900"));
+		btn_okq_13.setTextColor(Color.parseColor("#009900"));
+		btn_okq_14.setTextColor(Color.parseColor("#009900"));
 		//
 		btn_okq_1.setTypeface(face);
 		btn_okq_2.setTypeface(face);
@@ -293,29 +329,311 @@ public class GAME extends Activity implements OnClickListener {
 		/*
 		 * check speak on or off
 		 */
-		ic_audio_off = (ImageView) findViewById(R.id.icon_audio_off);
-		ic_audio_on = (ImageView) findViewById(R.id.icon_audio_on);
-		pre = getSharedPreferences("mydata", MODE_PRIVATE);
-		//
-		level = pre.getInt("numberlevel", 1);
-		diem = pre.getInt("numberDiem", 100);
-		btn_diem.setText(diem + "");
-		if (pre.getBoolean("speak", true)) {
-			ic_audio_off.setVisibility(View.GONE);
-			ic_audio_on.setVisibility(View.VISIBLE);
-			nhacnen.start();
-		} else {
-			ic_audio_off.setVisibility(View.VISIBLE);
-			ic_audio_on.setVisibility(View.GONE);
-
-		}
 
 		return true;
 	}
 
+	public void Click_help() {
+
+		char[] M = CAUHOI.getDapan().toCharArray();
+
+		switch (number_help) {
+		case 1:
+			btn_okq_1.setText(M[0] + "");
+			btn_okq_1.setOnClickListener(null);
+			btn_okq_1.setTextColor(Color.parseColor("#FFFF00"));
+			XoaButton_help(M[0] + "");
+			break;
+		case 2:
+			btn_okq_1.setText(M[0] + "");
+			btn_okq_1.setOnClickListener(null);
+			btn_okq_1.setTextColor(Color.parseColor("#FFFF00"));
+			XoaButton_help(M[0] + "");
+			//
+			btn_okq_2.setText(M[1] + "");
+			btn_okq_2.setOnClickListener(null);
+			btn_okq_2.setTextColor(Color.parseColor("#FFFF00"));
+			XoaButton_help(M[1] + "");
+			break;
+		case 3:
+			btn_okq_1.setText(M[0] + "");
+			btn_okq_1.setOnClickListener(null);
+			btn_okq_1.setTextColor(Color.parseColor("#FFFF00"));
+			XoaButton_help(M[0] + "");
+			//
+			btn_okq_2.setText(M[1] + "");
+			btn_okq_2.setOnClickListener(null);
+			btn_okq_2.setTextColor(Color.parseColor("#FFFF00"));
+			XoaButton_help(M[1] + "");
+			//
+			btn_okq_3.setText(M[2] + "");
+			btn_okq_3.setOnClickListener(null);
+			btn_okq_3.setTextColor(Color.parseColor("#FFFF00"));
+			XoaButton_help(M[2] + "");
+
+			break;
+		case 4:
+			btn_okq_1.setText(M[0] + "");
+			btn_okq_1.setOnClickListener(null);
+			btn_okq_1.setTextColor(Color.parseColor("#FFFF00"));
+			XoaButton_help(M[0] + "");
+			//
+			btn_okq_2.setText(M[1] + "");
+			btn_okq_2.setOnClickListener(null);
+			btn_okq_2.setTextColor(Color.parseColor("#FFFF00"));
+			XoaButton_help(M[1] + "");
+			//
+			btn_okq_3.setText(M[2] + "");
+			btn_okq_3.setOnClickListener(null);
+			btn_okq_3.setTextColor(Color.parseColor("#FFFF00"));
+			XoaButton_help(M[2] + "");
+			//
+			btn_okq_4.setText(M[3] + "");
+			btn_okq_4.setOnClickListener(null);
+			btn_okq_4.setTextColor(Color.parseColor("#FFFF00"));
+			XoaButton_help(M[3] + "");
+			break;
+		case 5:
+			btn_okq_1.setText(M[0] + "");
+			btn_okq_1.setOnClickListener(null);
+			btn_okq_1.setTextColor(Color.parseColor("#FFFF00"));
+			XoaButton_help(M[0] + "");
+			//
+			btn_okq_2.setText(M[1] + "");
+			btn_okq_2.setOnClickListener(null);
+			btn_okq_2.setTextColor(Color.parseColor("#FFFF00"));
+			XoaButton_help(M[1] + "");
+			//
+			btn_okq_3.setText(M[2] + "");
+			btn_okq_3.setOnClickListener(null);
+			btn_okq_3.setTextColor(Color.parseColor("#FFFF00"));
+			XoaButton_help(M[2] + "");
+			//
+			btn_okq_4.setText(M[3] + "");
+			btn_okq_4.setOnClickListener(null);
+			btn_okq_4.setTextColor(Color.parseColor("#FFFF00"));
+			XoaButton_help(M[3] + "");
+			//
+			btn_okq_5.setText(M[4] + "");
+			btn_okq_5.setOnClickListener(null);
+			btn_okq_5.setTextColor(Color.parseColor("#FFFF00"));
+			XoaButton_help(M[4] + "");
+			break;
+		case 6:
+			btn_okq_1.setText(M[0] + "");
+			btn_okq_1.setOnClickListener(null);
+			btn_okq_1.setTextColor(Color.parseColor("#FFFF00"));
+			XoaButton_help(M[0] + "");
+			//
+			btn_okq_2.setText(M[1] + "");
+			btn_okq_2.setOnClickListener(null);
+			btn_okq_2.setTextColor(Color.parseColor("#FFFF00"));
+			XoaButton_help(M[1] + "");
+			//
+			btn_okq_3.setText(M[2] + "");
+			btn_okq_3.setOnClickListener(null);
+			btn_okq_3.setTextColor(Color.parseColor("#FFFF00"));
+			XoaButton_help(M[2] + "");
+			//
+			btn_okq_4.setText(M[3] + "");
+			btn_okq_4.setOnClickListener(null);
+			btn_okq_4.setTextColor(Color.parseColor("#FFFF00"));
+			XoaButton_help(M[3] + "");
+			//
+			btn_okq_5.setText(M[4] + "");
+			btn_okq_5.setOnClickListener(null);
+			btn_okq_5.setTextColor(Color.parseColor("#FFFF00"));
+			XoaButton_help(M[4] + "");
+			//
+			btn_okq_6.setText(M[5] + "");
+			btn_okq_6.setOnClickListener(null);
+			btn_okq_6.setTextColor(Color.parseColor("#FFFF00"));
+			XoaButton_help(M[5] + "");
+			break;
+		case 7:
+			btn_okq_1.setText(M[0] + "");
+			btn_okq_1.setOnClickListener(null);
+			btn_okq_1.setTextColor(Color.parseColor("#FFFF00"));
+			XoaButton_help(M[0] + "");
+			//
+			btn_okq_2.setText(M[1] + "");
+			btn_okq_2.setOnClickListener(null);
+			btn_okq_2.setTextColor(Color.parseColor("#FFFF00"));
+			XoaButton_help(M[1] + "");
+			//
+			btn_okq_3.setText(M[2] + "");
+			btn_okq_3.setOnClickListener(null);
+			btn_okq_3.setTextColor(Color.parseColor("#FFFF00"));
+			XoaButton_help(M[2] + "");
+			//
+			btn_okq_4.setText(M[3] + "");
+			btn_okq_4.setOnClickListener(null);
+			btn_okq_4.setTextColor(Color.parseColor("#FFFF00"));
+			XoaButton_help(M[3] + "");
+			//
+			btn_okq_5.setText(M[4] + "");
+			btn_okq_5.setOnClickListener(null);
+			btn_okq_5.setTextColor(Color.parseColor("#FFFF00"));
+			XoaButton_help(M[4] + "");
+			//
+			btn_okq_6.setText(M[5] + "");
+			btn_okq_6.setOnClickListener(null);
+			btn_okq_6.setTextColor(Color.parseColor("#FFFF00"));
+			XoaButton_help(M[5] + "");
+			//
+			btn_okq_7.setText(M[6] + "");
+			btn_okq_7.setOnClickListener(null);
+			btn_okq_7.setTextColor(Color.parseColor("#FFFF00"));
+			XoaButton_help(M[6] + "");
+			break;
+		case 8:
+			btn_okq_1.setText(M[0] + "");
+			btn_okq_1.setOnClickListener(null);
+			btn_okq_1.setTextColor(Color.parseColor("#FFFF00"));
+			XoaButton_help(M[0] + "");
+			//
+			btn_okq_2.setText(M[1] + "");
+			btn_okq_2.setOnClickListener(null);
+			btn_okq_2.setTextColor(Color.parseColor("#FFFF00"));
+			XoaButton_help(M[1] + "");
+			//
+			btn_okq_3.setText(M[2] + "");
+			btn_okq_3.setOnClickListener(null);
+			btn_okq_3.setTextColor(Color.parseColor("#FFFF00"));
+			XoaButton_help(M[2] + "");
+			//
+			btn_okq_4.setText(M[3] + "");
+			btn_okq_4.setOnClickListener(null);
+			btn_okq_4.setTextColor(Color.parseColor("#FFFF00"));
+			XoaButton_help(M[3] + "");
+			//
+			btn_okq_5.setText(M[4] + "");
+			btn_okq_5.setOnClickListener(null);
+			btn_okq_5.setTextColor(Color.parseColor("#FFFF00"));
+			XoaButton_help(M[4] + "");
+			//
+			btn_okq_6.setText(M[5] + "");
+			btn_okq_6.setOnClickListener(null);
+			btn_okq_6.setTextColor(Color.parseColor("#FFFF00"));
+			XoaButton_help(M[5] + "");
+			//
+			btn_okq_7.setText(M[6] + "");
+			btn_okq_7.setOnClickListener(null);
+			btn_okq_7.setTextColor(Color.parseColor("#FFFF00"));
+			XoaButton_help(M[6] + "");
+			//
+			btn_okq_8.setText(M[7] + "");
+			btn_okq_8.setOnClickListener(null);
+			btn_okq_8.setTextColor(Color.parseColor("#FFFF00"));
+			XoaButton_help(M[7] + "");
+			//
+
+			break;
+		case 9:
+			btn_okq_1.setText(M[0] + "");
+			btn_okq_1.setOnClickListener(null);
+			btn_okq_1.setTextColor(Color.parseColor("#FFFF00"));
+			XoaButton_help(M[0] + "");
+			//
+			btn_okq_2.setText(M[1] + "");
+			btn_okq_2.setOnClickListener(null);
+			btn_okq_2.setTextColor(Color.parseColor("#FFFF00"));
+			XoaButton_help(M[1] + "");
+			//
+			btn_okq_3.setText(M[2] + "");
+			btn_okq_3.setOnClickListener(null);
+			btn_okq_3.setTextColor(Color.parseColor("#FFFF00"));
+			XoaButton_help(M[2] + "");
+			//
+			btn_okq_4.setText(M[3] + "");
+			btn_okq_4.setOnClickListener(null);
+			btn_okq_4.setTextColor(Color.parseColor("#FFFF00"));
+			XoaButton_help(M[3] + "");
+			//
+			btn_okq_5.setText(M[4] + "");
+			btn_okq_5.setOnClickListener(null);
+			btn_okq_5.setTextColor(Color.parseColor("#FFFF00"));
+			XoaButton_help(M[4] + "");
+			//
+			btn_okq_6.setText(M[5] + "");
+			btn_okq_6.setOnClickListener(null);
+			btn_okq_6.setTextColor(Color.parseColor("#FFFF00"));
+			XoaButton_help(M[5] + "");
+			//
+			btn_okq_7.setText(M[6] + "");
+			btn_okq_7.setOnClickListener(null);
+			btn_okq_7.setTextColor(Color.parseColor("#FFFF00"));
+			XoaButton_help(M[6] + "");
+			//
+			btn_okq_8.setText(M[7] + "");
+			btn_okq_8.setOnClickListener(null);
+			btn_okq_8.setTextColor(Color.parseColor("#FFFF00"));
+			XoaButton_help(M[7] + "");
+			//
+			btn_okq_9.setText(M[8] + "");
+			btn_okq_9.setOnClickListener(null);
+			btn_okq_9.setTextColor(Color.parseColor("#FFFF00"));
+			XoaButton_help(M[8] + "");
+			break;
+		case 10:
+			btn_okq_1.setText(M[0] + "");
+			btn_okq_1.setOnClickListener(null);
+			btn_okq_1.setTextColor(Color.parseColor("#FFFF00"));
+			XoaButton_help(M[0] + "");
+			//
+			btn_okq_2.setText(M[1] + "");
+			btn_okq_2.setOnClickListener(null);
+			btn_okq_2.setTextColor(Color.parseColor("#FFFF00"));
+			XoaButton_help(M[1] + "");
+			//
+			btn_okq_3.setText(M[2] + "");
+			btn_okq_3.setOnClickListener(null);
+			btn_okq_3.setTextColor(Color.parseColor("#FFFF00"));
+			XoaButton_help(M[2] + "");
+			//
+			btn_okq_4.setText(M[3] + "");
+			btn_okq_4.setOnClickListener(null);
+			btn_okq_4.setTextColor(Color.parseColor("#FFFF00"));
+			XoaButton_help(M[3] + "");
+			//
+			btn_okq_5.setText(M[4] + "");
+			btn_okq_5.setOnClickListener(null);
+			btn_okq_5.setTextColor(Color.parseColor("#FFFF00"));
+			XoaButton_help(M[4] + "");
+			//
+			btn_okq_6.setText(M[5] + "");
+			btn_okq_6.setOnClickListener(null);
+			btn_okq_6.setTextColor(Color.parseColor("#FFFF00"));
+			XoaButton_help(M[5] + "");
+			//
+			btn_okq_7.setText(M[6] + "");
+			btn_okq_7.setOnClickListener(null);
+			btn_okq_7.setTextColor(Color.parseColor("#FFFF00"));
+			XoaButton_help(M[6] + "");
+			//
+			btn_okq_8.setText(M[7] + "");
+			btn_okq_8.setOnClickListener(null);
+			btn_okq_8.setTextColor(Color.parseColor("#FFFF00"));
+			XoaButton_help(M[7] + "");
+			//
+			btn_okq_9.setText(M[8] + "");
+			btn_okq_9.setOnClickListener(null);
+			btn_okq_9.setTextColor(Color.parseColor("#FFFF00"));
+			XoaButton_help(M[8] + "");
+			//
+			btn_okq_10.setText(M[9] + "");
+			btn_okq_10.setOnClickListener(null);
+			btn_okq_10.setTextColor(Color.parseColor("#FFFF00"));
+			XoaButton_help(M[9] + "");
+			break;
+		default:
+			break;
+		}
+
+	}
+
 	@Override
 	public void onClick(View v) {
-		m = new ManagarGAME();
 
 		if (v == icon_help) {
 			// click vaof icon help
@@ -349,49 +667,23 @@ public class GAME extends Activity implements OnClickListener {
 						.setOnClickListener(new View.OnClickListener() {
 							@Override
 							public void onClick(View v) {
+								//
+								HienOGoiy(CAUHOI.getGoiy());
+								HienButtonODapAn(CAUHOI.getDapan().length());
+								number_help++;
+								Click_help();
+								size_ChuDaChon = CAUHOI.getDapan().length()
+										- number_help;
+								if (size_ChuDaChon < 1)
+									KiemTraDapAn();
 
-								char[] M = CAUHOI.getDapan().toCharArray();
-
-								switch (number_help) {
-								case 0:
-									btn_okq_1.setText(M[0] + "");
-									XoaButton_help(btn_okq_1.getText()
-											.toString());
-									size_ChuDaChon--;
-									if (size_ChuDaChon < 1)
-										KiemTraDapAn();
-									break;
-								case 1:
-									btn_okq_2.setText(M[1] + "");
-									XoaButton_help(btn_okq_2.getText()
-											.toString());
-									size_ChuDaChon--;
-									if (size_ChuDaChon < 1)
-										KiemTraDapAn();
-									break;
-								case 2:
-									btn_okq_3.setText(M[2] + "");
-									XoaButton_help(btn_okq_3.getText()
-											.toString());
-									size_ChuDaChon--;
-									if (size_ChuDaChon < 1)
-										KiemTraDapAn();
-									break;
-								case 3:
-									btn_okq_4.setText(M[4] + "");
-									XoaButton_help(btn_okq_4.getText()
-											.toString());
-									size_ChuDaChon--;
-									if (size_ChuDaChon < 1)
-										KiemTraDapAn();
-									break;
-								default:
-									break;
-								}
 								dialog.dismiss();
 								diem = diem - 20;
 								btn_diem.setText(diem + "");
-								number_help++;
+								//
+								SharedPreferences.Editor edit = pre.edit();
+								edit.putInt("num_help", number_help);
+								edit.commit();
 							}
 						});
 
@@ -407,6 +699,7 @@ public class GAME extends Activity implements OnClickListener {
 			ic_audio_on.setVisibility(View.GONE);
 			ic_audio_off.setVisibility(View.VISIBLE);
 			nhacnen.pause();
+			handler.removeCallbacks(runmusics);
 			SharedPreferences.Editor edit = pre.edit();
 			edit.putBoolean("speak", false);
 			edit.commit();
@@ -416,6 +709,7 @@ public class GAME extends Activity implements OnClickListener {
 			ic_audio_on.setVisibility(View.VISIBLE);
 			ic_audio_off.setVisibility(View.GONE);
 			nhacnen.start();
+			handler.postDelayed(runmusics, 7000);
 			SharedPreferences.Editor edit = pre.edit();
 			edit.putBoolean("speak", true);
 			edit.commit();
@@ -502,74 +796,59 @@ public class GAME extends Activity implements OnClickListener {
 		else if (v == btn_okq_1 && XoaOChu(btn_okq_1.getText().toString())) {
 			btn_okq_1.setText("");
 			size_ChuDaChon++;
-			if (number_help > 0)
-				number_help--;
 
 		} else if (v == btn_okq_2 && XoaOChu(btn_okq_2.getText().toString())) {
 			btn_okq_2.setText("");
 			size_ChuDaChon++;
-			if (number_help > 0)
-				number_help--;
+
 		} else if (v == btn_okq_3 && XoaOChu(btn_okq_3.getText().toString())) {
 			btn_okq_3.setText("");
 			size_ChuDaChon++;
-			if (number_help > 0)
-				number_help--;
+
 		} else if (v == btn_okq_4 && XoaOChu(btn_okq_4.getText().toString())) {
 			btn_okq_4.setText("");
 			size_ChuDaChon++;
-			if (number_help > 0)
-				number_help--;
+
 		} else if (v == btn_okq_5 && XoaOChu(btn_okq_5.getText().toString())) {
 			btn_okq_5.setText("");
 			size_ChuDaChon++;
-			if (number_help > 0)
-				number_help--;
+
 		} else if (v == btn_okq_6 && XoaOChu(btn_okq_6.getText().toString())) {
 			btn_okq_6.setText("");
 			size_ChuDaChon++;
-			if (number_help > 0)
-				number_help--;
+
 		} else if (v == btn_okq_7 && XoaOChu(btn_okq_7.getText().toString())) {
 			btn_okq_7.setText("");
 			size_ChuDaChon++;
-			if (number_help > 0)
-				number_help--;
+
 		} else if (v == btn_okq_8 && XoaOChu(btn_okq_8.getText().toString())) {
 			btn_okq_8.setText("");
 			size_ChuDaChon++;
-			if (number_help > 0)
-				number_help--;
+
 		} else if (v == btn_okq_9 && XoaOChu(btn_okq_9.getText().toString())) {
 			btn_okq_9.setText("");
 			size_ChuDaChon++;
-			if (number_help > 0)
-				number_help--;
+
 		} else if (v == btn_okq_10 && XoaOChu(btn_okq_10.getText().toString())) {
 			btn_okq_10.setText("");
 			size_ChuDaChon++;
-			if (number_help > 0)
-				number_help--;
+
 		} else if (v == btn_okq_11 && XoaOChu(btn_okq_11.getText().toString())) {
-			btn_okq_12.setText("");
+			btn_okq_11.setText("");
 			size_ChuDaChon++;
-			if (number_help > 0)
-				number_help--;
+
 		} else if (v == btn_okq_12 && XoaOChu(btn_okq_12.getText().toString())) {
 			btn_okq_12.setText("");
 			size_ChuDaChon++;
-			if (number_help > 0)
-				number_help--;
+
 		} else if (v == btn_okq_13 && XoaOChu(btn_okq_13.getText().toString())) {
 			btn_okq_13.setText("");
 			size_ChuDaChon++;
-			if (number_help > 0)
-				number_help--;
+
 		} else if (v == btn_okq_14 && XoaOChu(btn_okq_14.getText().toString())) {
 			btn_okq_14.setText("");
 			size_ChuDaChon++;
-			if (number_help > 0)
-				number_help--;
+
 		} else {
 
 		}
@@ -577,7 +856,6 @@ public class GAME extends Activity implements OnClickListener {
 	}
 
 	public void showgame(int id) {
-		//
 
 		//
 		managersqllite = new ManagerSqlite(getApplication());
@@ -626,49 +904,206 @@ public class GAME extends Activity implements OnClickListener {
 		managersqllite.UpdateImageView(R.drawable.thieuta, 35);
 		//
 		managersqllite.UpdateImageView(R.drawable.hanhhung, 36);
+		managersqllite.UpdateImageView(R.drawable.tongbithu, 37);
+		managersqllite.UpdateImageView(R.drawable.phico, 38);
+		managersqllite.UpdateImageView(R.drawable.chiencong, 39);
+		managersqllite.UpdateImageView(R.drawable.nokia, 40);
+		//
+		managersqllite.UpdateImageView(R.drawable.ovuong, 41);
+		managersqllite.UpdateImageView(R.drawable.luudan, 42);
+		managersqllite.UpdateImageView(R.drawable.matthiet, 43);
+		managersqllite.UpdateImageView(R.drawable.phongkhong, 44);
+		managersqllite.UpdateImageView(R.drawable.holytinh, 45);
+		//
+		managersqllite.UpdateImageView(R.drawable.thucongmynghe, 46);
+		managersqllite.UpdateImageView(R.drawable.chieutruc, 47);
+		managersqllite.UpdateImageView(R.drawable.nambancau, 48);
+		managersqllite.UpdateImageView(R.drawable.chiensy, 49);
+		managersqllite.UpdateImageView(R.drawable.xangang, 50);
+		//
+		managersqllite.UpdateImageView(R.drawable.khongkich, 51);
+		managersqllite.UpdateImageView(R.drawable.giandiep, 52);
+		managersqllite.UpdateImageView(R.drawable.lonhbong, 53);
+		managersqllite.UpdateImageView(R.drawable.quanham, 54);
+		managersqllite.UpdateImageView(R.drawable.tinhco, 55);
+		//
+		managersqllite.UpdateImageView(R.drawable.hangngu, 56);
+		managersqllite.UpdateImageView(R.drawable.casio, 57);
+		managersqllite.UpdateImageView(R.drawable.daugio, 58);
+		managersqllite.UpdateImageView(R.drawable.thieutuong, 59);
+		managersqllite.UpdateImageView(R.drawable.danhgiaplaca, 60);
+		//
+		managersqllite.UpdateImageView(R.drawable.canhtranh, 61);
+		managersqllite.UpdateImageView(R.drawable.sangsua, 62);
+		managersqllite.UpdateImageView(R.drawable.dola, 63);
+		managersqllite.UpdateImageView(R.drawable.guongcau, 64);
+		managersqllite.UpdateImageView(R.drawable.daumoi, 65);
+		//
 
+		managersqllite.UpdateImageView(R.drawable.chihuy, 66);
+		managersqllite.UpdateImageView(R.drawable.caobuoc, 67);
+		managersqllite.UpdateImageView(R.drawable.linhlienlac, 68);
+		managersqllite.UpdateImageView(R.drawable.linhdao, 69);
+		managersqllite.UpdateImageView(R.drawable.ducnuocbeoco, 70);
+		//
+		managersqllite.UpdateImageView(R.drawable.yamaha, 71);
+		managersqllite.UpdateImageView(R.drawable.hoaluc, 72);
+		managersqllite.UpdateImageView(R.drawable.camtu, 73);
+		managersqllite.UpdateImageView(R.drawable.tubi, 74);
+		managersqllite.UpdateImageView(R.drawable.cattuong, 75);
+		//
+		managersqllite.UpdateImageView(R.drawable.dautranh, 76);
+		managersqllite.UpdateImageView(R.drawable.hoga, 77);
+		managersqllite.UpdateImageView(R.drawable.phuchau, 78);
+		managersqllite.UpdateImageView(R.drawable.epcung, 79);
+		managersqllite.UpdateImageView(R.drawable.thangthung, 80);
+		//
+		managersqllite.UpdateImageView(R.drawable.thientai, 81);
+		managersqllite.UpdateImageView(R.drawable.muabongmay, 82);
+		managersqllite.UpdateImageView(R.drawable.toitam, 83);
+		managersqllite.UpdateImageView(R.drawable.longlangdathu, 84);
+		managersqllite.UpdateImageView(R.drawable.cacao, 85);
+		//
+		managersqllite.UpdateImageView(R.drawable.oto, 86);
+		managersqllite.UpdateImageView(R.drawable.caohoc, 87);
+		managersqllite.UpdateImageView(R.drawable.gauquan, 88);
+		managersqllite.UpdateImageView(R.drawable.taobon, 89);
+		managersqllite.UpdateImageView(R.drawable.daongu, 90);
+		//
+		managersqllite.UpdateImageView(R.drawable.daolon, 91);
+		managersqllite.UpdateImageView(R.drawable.vattu, 92);
+		managersqllite.UpdateImageView(R.drawable.chinchan, 93);
+		managersqllite.UpdateImageView(R.drawable.vuaphaluoi, 94);
+		managersqllite.UpdateImageView(R.drawable.laca, 95);
+		//
+		managersqllite.UpdateImageView(R.drawable.langben, 96);
+		managersqllite.UpdateImageView(R.drawable.nhonho, 97);
+		managersqllite.UpdateImageView(R.drawable.baodong, 98);
+		managersqllite.UpdateImageView(R.drawable.bankinh, 99);
+		managersqllite.UpdateImageView(R.drawable.caobiet, 100);
+		//
+		managersqllite.UpdateImageView(R.drawable.data, 101);
+		managersqllite.UpdateImageView(R.drawable.baola, 102);
+		managersqllite.UpdateImageView(R.drawable.tatyeu, 103);
+		managersqllite.UpdateImageView(R.drawable.dacuoi, 104);
+		managersqllite.UpdateImageView(R.drawable.bolao, 105);
+		//
+		managersqllite.UpdateImageView(R.drawable.nghesinhanhdan, 106);
+		managersqllite.UpdateImageView(R.drawable.otrong, 107);
+		managersqllite.UpdateImageView(R.drawable.baoham, 108);
+		managersqllite.UpdateImageView(R.drawable.thoihan, 109);
+		//
+		managersqllite.UpdateImageView(R.drawable.hoclech, 110);
+		managersqllite.UpdateImageView(R.drawable.quaibi, 111);
+		managersqllite.UpdateImageView(R.drawable.tranhcodong, 112);
+		managersqllite.UpdateImageView(R.drawable.batcoc, 113);
+		managersqllite.UpdateImageView(R.drawable.lancan, 114);
+		//
+		managersqllite.UpdateImageView(R.drawable.hutchankhong, 115);
+		managersqllite.UpdateImageView(R.drawable.caito, 116);
+		managersqllite.UpdateImageView(R.drawable.docnhatvonhi, 117);
+		managersqllite.UpdateImageView(R.drawable.tieuchay, 118);
+		managersqllite.UpdateImageView(R.drawable.thuocla, 119);
+		//
+		//
+		managersqllite.UpdateImageView(R.drawable.dinhcao, 120);
+		managersqllite.UpdateImageView(R.drawable.duongcai, 121);
+		managersqllite.UpdateImageView(R.drawable.guongchieuhau, 122);
+		managersqllite.UpdateImageView(R.drawable.quabao, 123);
+		managersqllite.UpdateImageView(R.drawable.thienduong, 124);
+		//
+		managersqllite.UpdateImageView(R.drawable.dinhcao, 120);
+		managersqllite.UpdateImageView(R.drawable.duongcai, 121);
+		managersqllite.UpdateImageView(R.drawable.guongchieuhau, 122);
+		managersqllite.UpdateImageView(R.drawable.quabao, 123);
+		managersqllite.UpdateImageView(R.drawable.thienduong, 124);
+		//
+		managersqllite.UpdateImageView(R.drawable.dongbao, 125);
+		managersqllite.UpdateImageView(R.drawable.chotreomeoday, 126);
+		managersqllite.UpdateImageView(R.drawable.giaothong, 127);
+		managersqllite.UpdateImageView(R.drawable.giaythonghanh, 128);
+		managersqllite.UpdateImageView(R.drawable.congty, 129);
+		//
+		managersqllite.UpdateImageView(R.drawable.laban, 130);
+		managersqllite.UpdateImageView(R.drawable.luoile, 131);
+		managersqllite.UpdateImageView(R.drawable.saunang, 132);
+		managersqllite.UpdateImageView(R.drawable.nhacchoctroi, 133);
+		managersqllite.UpdateImageView(R.drawable.canthiep, 134);
+		//
+		managersqllite.UpdateImageView(R.drawable.thanthong, 135);
+		managersqllite.UpdateImageView(R.drawable.danphong, 136);
+		managersqllite.UpdateImageView(R.drawable.nhosy, 137);
+		managersqllite.UpdateImageView(R.drawable.thothe, 138);
+		managersqllite.UpdateImageView(R.drawable.hoanhtrang, 139);
+		//
+		managersqllite.UpdateImageView(R.drawable.thuydau, 140);
+		managersqllite.UpdateImageView(R.drawable.tieuthu, 141);
+		managersqllite.UpdateImageView(R.drawable.totbung, 142);
+		managersqllite.UpdateImageView(R.drawable.dagiac, 143);
+		managersqllite.UpdateImageView(R.drawable.canhdong, 144);
+		//
+		managersqllite.UpdateImageView(R.drawable.danhgia, 145);
+		managersqllite.UpdateImageView(R.drawable.aulac, 146);
+		managersqllite.UpdateImageView(R.drawable.tinhhoa, 147);
+		managersqllite.UpdateImageView(R.drawable.thattruyen, 148);
+		managersqllite.UpdateImageView(R.drawable.bachcau, 149);
+		//
+		managersqllite.UpdateImageView(R.drawable.tyte, 150);
+		managersqllite.UpdateImageView(R.drawable.hatnhan, 151);
+		managersqllite.UpdateImageView(R.drawable.gokien, 152);
+		// managersqllite.UpdateImageView(R.drawable.quabao, 143);
+		// managersqllite.UpdateImageView(R.drawable.thienduong, 144);
+		managersqllite.UpdateImageView(R.drawable.gokien, 152);
+		//
+		level = pre.getInt("numberlevel", 1);
+		diem = pre.getInt("numberDiem", 100);
+		number_help = pre.getInt("num_help", 0);
+		//
 		CAUHOI = new Cauhoi();
 		CAUHOI = managersqllite.getCauHoi(level);
 		// // set dữ liệu cho câu hỏi
-		// set level cho game la số id của câu hỏi
+
+		pre = getSharedPreferences("mydata", MODE_PRIVATE);
+		//
+
+		size_ChuDaChon = CAUHOI.getDapan().length();
+		//
+		btn_diem.setText(diem + "");
 		btn_numberlevel.setText(CAUHOI.getId() + "");
+		//
+		if (pre.getBoolean("speak", true)) {
+			ic_audio_off.setVisibility(View.GONE);
+			ic_audio_on.setVisibility(View.VISIBLE);
+			nhacnen.start();
+			handler.postDelayed(runmusics, 7000);
+		} else {
+			ic_audio_off.setVisibility(View.VISIBLE);
+			ic_audio_on.setVisibility(View.GONE);
+
+		}
+
+		// set level cho game la số id của câu hỏi
 		// // set hình ảnh cho câu hỏi
 		img_cauhoi.setImageResource(CAUHOI.getHinhanh());
 		// // set số lượng ô số cho câu hỏi
-		size_ChuDaChon = CAUHOI.getDapan().length();
+
 		HienButtonODapAn(CAUHOI.getDapan().length());
 		// hiện ô chữ gợi ý
-		ranDomTuGoiY(CAUHOI.getDapan());
+		HienOGoiy(CAUHOI.getGoiy());
+		//
+
+		if (number_help > 0) {
+			Click_help();
+			size_ChuDaChon = size_ChuDaChon - number_help;
+		}
 
 	}
 
 	// 13 ,12 ,11,10,9,8
-	public void ranDomTuGoiY(String dapan) {
+	public void HienOGoiy(String dapan) {
 
-		ArrayList<String> M = new ArrayList<String>();
+		char[] M = dapan.toCharArray();
 
-		char[] ds = { 'A', 'A', 'A', 'A', 'A', 'A', 'A', 'A', 'A', 'A', 'A',
-				'A', 'A', 'A' };
-
-		ds = dapan.toCharArray();
-		for (int i = 0; i < ds.length; i++) {
-			M.add(ds[i] + "");
-		}
-
-		Random rd = new Random();
-		for (int i = ds.length; i < 14; i++) {
-			M.add((char) (rd.nextInt(25) + 65) + "");
-		}
-		// đảo mảng
-		String tmp;
-		int a, b, c;
-		for (int i = 0; i < 20; i++) {
-			a = rd.nextInt(7);
-			b = rd.nextInt(14);
-			tmp = M.get(a);
-			M.set(a, M.get(b));
-			M.set(b, tmp);
-		}
 		btn_ogy_1.setVisibility(View.VISIBLE);
 		btn_ogy_2.setVisibility(View.VISIBLE);
 		btn_ogy_3.setVisibility(View.VISIBLE);
@@ -684,164 +1119,20 @@ public class GAME extends Activity implements OnClickListener {
 		btn_ogy_13.setVisibility(View.VISIBLE);
 		btn_ogy_14.setVisibility(View.VISIBLE);
 		//
-		btn_ogy_1.setText(M.get(0) + "");
-		btn_ogy_2.setText(M.get(1) + "");
-		btn_ogy_3.setText(M.get(2) + "");
-		btn_ogy_4.setText(M.get(3) + "");
-		btn_ogy_5.setText(M.get(4) + "");
-		btn_ogy_6.setText(M.get(5) + "");
-		btn_ogy_7.setText(M.get(6) + "");
-		btn_ogy_8.setText(M.get(7) + "");
-		btn_ogy_9.setText(M.get(8) + "");
-		btn_ogy_10.setText(M.get(9) + "");
-		btn_ogy_11.setText(M.get(10) + "");
-		btn_ogy_12.setText(M.get(11) + "");
-		btn_ogy_13.setText(M.get(12) + "");
-		btn_ogy_14.setText(M.get(13) + "");
-
-	}
-
-	public boolean GetLevel(int lv) {
-		ArrayList<String> dsOChuGoiY = new ArrayList<String>();
-		dsOChuDapAn = new ArrayList<String>();
-		Drawable dram = null;
-		switch (lv) {
-		case 1:
-			dram = getResources().getDrawable(R.drawable.h1);
-			break;
-		case 2:
-			dram = getResources().getDrawable(R.drawable.h2);
-			break;
-		case 3:
-			dram = getResources().getDrawable(R.drawable.h3);
-			break;
-		case 4:
-			dram = getResources().getDrawable(R.drawable.h4);
-			break;
-		case 5:
-			dram = getResources().getDrawable(R.drawable.h5);
-			break;
-		case 6:
-			dram = getResources().getDrawable(R.drawable.h6);
-			break;
-		case 7:
-			dram = getResources().getDrawable(R.drawable.h7);
-			break;
-		case 8:
-			dram = getResources().getDrawable(R.drawable.h8);
-			break;
-		case 9:
-			dram = getResources().getDrawable(R.drawable.h9);
-			break;
-		case 10:
-			dram = getResources().getDrawable(R.drawable.h10);
-			break;
-		case 11:
-			dram = getResources().getDrawable(R.drawable.h11);
-			break;
-		case 12:
-			dram = getResources().getDrawable(R.drawable.h12);
-			break;
-		case 13:
-			dram = getResources().getDrawable(R.drawable.h13);
-			break;
-		case 14:
-			dram = getResources().getDrawable(R.drawable.h14);
-			break;
-		case 15:
-			dram = getResources().getDrawable(R.drawable.h15);
-			break;
-		case 16:
-			dram = getResources().getDrawable(R.drawable.h16);
-			break;
-		case 17:
-			dram = getResources().getDrawable(R.drawable.h17);
-			break;
-		case 18:
-			dram = getResources().getDrawable(R.drawable.h18);
-			break;
-		case 19:
-			dram = getResources().getDrawable(R.drawable.h19);
-			break;
-		case 20:
-			dram = getResources().getDrawable(R.drawable.h20);
-			break;
-		case 21:
-			dram = getResources().getDrawable(R.drawable.h21);
-			break;
-		case 22:
-			dram = getResources().getDrawable(R.drawable.h22);
-			break;
-		case 23:
-			dram = getResources().getDrawable(R.drawable.h23);
-			break;
-		case 24:
-			dram = getResources().getDrawable(R.drawable.h24);
-			break;
-		case 25:
-			dram = getResources().getDrawable(R.drawable.h25);
-			break;
-		case 26:
-			dram = getResources().getDrawable(R.drawable.h26);
-			break;
-		case 27:
-			dram = getResources().getDrawable(R.drawable.h27);
-			break;
-		case 28:
-			dram = getResources().getDrawable(R.drawable.h28);
-			break;
-		case 29:
-			dram = getResources().getDrawable(R.drawable.h29);
-			break;
-		case 30:
-			dram = getResources().getDrawable(R.drawable.h30);
-		default:
-			Intent theend = new Intent(GAME.this, TheEnd.class);
-			startActivity(theend);
-			return false;
-		}
-		btn_numberlevel.setText("" + lv);
-		btn_diem.setText(diem + "");
-		img_cauhoi.setImageDrawable(dram);
-		dsOChuGoiY = m.TaoDSOChuGoiY(lv);
-		setDsOChuDapAn(m.TaoDSOChuDapAn(lv));
-
-		setButtonOGoiY(dsOChuGoiY);
-		//
-		HienButtonODapAn(m.leght_DapAn);
-		return true;
-	}
-
-	public void setButtonOGoiY(ArrayList<String> ds) {
-		btn_ogy_1.setVisibility(View.VISIBLE);
-		btn_ogy_2.setVisibility(View.VISIBLE);
-		btn_ogy_3.setVisibility(View.VISIBLE);
-		btn_ogy_4.setVisibility(View.VISIBLE);
-		btn_ogy_5.setVisibility(View.VISIBLE);
-		btn_ogy_6.setVisibility(View.VISIBLE);
-		btn_ogy_7.setVisibility(View.VISIBLE);
-		btn_ogy_8.setVisibility(View.VISIBLE);
-		btn_ogy_9.setVisibility(View.VISIBLE);
-		btn_ogy_10.setVisibility(View.VISIBLE);
-		btn_ogy_11.setVisibility(View.VISIBLE);
-		btn_ogy_12.setVisibility(View.VISIBLE);
-		btn_ogy_13.setVisibility(View.VISIBLE);
-		btn_ogy_14.setVisibility(View.VISIBLE);
-		//
-		btn_ogy_1.setText(ds.get(0));
-		btn_ogy_2.setText(ds.get(1));
-		btn_ogy_3.setText(ds.get(2));
-		btn_ogy_4.setText(ds.get(3));
-		btn_ogy_5.setText(ds.get(4));
-		btn_ogy_6.setText(ds.get(5));
-		btn_ogy_7.setText(ds.get(6));
-		btn_ogy_8.setText(ds.get(7));
-		btn_ogy_9.setText(ds.get(8));
-		btn_ogy_10.setText(ds.get(9));
-		btn_ogy_11.setText(ds.get(10));
-		btn_ogy_12.setText(ds.get(11));
-		btn_ogy_13.setText(ds.get(12));
-		btn_ogy_14.setText(ds.get(13));
+		btn_ogy_1.setText(M[0] + "");
+		btn_ogy_2.setText(M[1] + "");
+		btn_ogy_3.setText(M[2] + "");
+		btn_ogy_4.setText(M[3] + "");
+		btn_ogy_5.setText(M[4] + "");
+		btn_ogy_6.setText(M[5] + "");
+		btn_ogy_7.setText(M[6] + "");
+		btn_ogy_8.setText(M[7] + "");
+		btn_ogy_9.setText(M[8] + "");
+		btn_ogy_10.setText(M[9] + "");
+		btn_ogy_11.setText(M[10] + "");
+		btn_ogy_12.setText(M[11] + "");
+		btn_ogy_13.setText(M[12] + "");
+		btn_ogy_14.setText(M[13] + "");
 
 	}
 
@@ -1030,7 +1321,7 @@ public class GAME extends Activity implements OnClickListener {
 	public void KiemTraDapAn() {
 		LayoutInflater inflater = getLayoutInflater();
 		View layout = inflater.inflate(R.layout.mycustomtoast_layout, null);
-		char[] ds = CAUHOI.getDapan().toCharArray();
+
 		//
 		String dapan = btn_okq_1.getText().toString()
 				+ btn_okq_2.getText().toString()
@@ -1053,10 +1344,20 @@ public class GAME extends Activity implements OnClickListener {
 			//
 			level = level + 1;
 			diem = diem + 10;
-			nhacchienthang = new MediaPlayer().create(this,
-					R.raw.nhacchienthang);
-			nhacchienthang.start();
 			nhacnen.stop();
+			if (pre.getBoolean("speak", true)) {
+				new MediaPlayer();
+				nhacchienthang = MediaPlayer.create(this, R.raw.musicwin);
+				nhacchienthang.start();
+			}
+			// luu help
+			number_help = 0;
+			pre = getSharedPreferences("mydata", MODE_PRIVATE);
+			SharedPreferences.Editor edit = pre.edit();
+			edit.putInt("num_help", number_help);
+			edit.commit();
+
+			// medi
 
 			Intent good = new Intent(GAME.this, ChienThang.class);
 			good.putExtra("id", CAUHOI.getId());
@@ -1108,8 +1409,15 @@ public class GAME extends Activity implements OnClickListener {
 			public void onClick(View arg0) {
 				nhacnen.stop();
 				// Khoi tao lai Activity main
+
 				Intent intent = new Intent(getApplicationContext(),
 						MainActivity.class);
+				pre = getSharedPreferences("mydata", MODE_PRIVATE);
+				SharedPreferences.Editor edit = pre.edit();
+				edit.putInt("numberlevel", level);
+				edit.putInt("numberDiem", diem);
+				edit.putInt("num_help", number_help);
+				edit.commit();
 				startActivity(intent);
 				// Tao su kien ket thuc app
 				Intent startMain = new Intent(Intent.ACTION_MAIN);
