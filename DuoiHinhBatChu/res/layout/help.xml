@@ -48,12 +48,13 @@
         android:orientation="horizontal" >
 
         <TextView
+            android:id="@+id/txt_dialog_help"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_marginLeft="3dp"
             android:gravity="center"
             android:padding="3dp"
-            android:text="Mở một ô chữ trong đáp án, bạn sẽ bị trừ 20 điểm. Bạn có chắc chắn muốn mở không ?"
+            android:text="Mở một ô chữ trong đáp án, bạn sẽ bị trừ 15 điểm. Bạn có chắc chắn muốn mở không ?"
             android:textColor="#00BFFF" />
     </LinearLayout>
 

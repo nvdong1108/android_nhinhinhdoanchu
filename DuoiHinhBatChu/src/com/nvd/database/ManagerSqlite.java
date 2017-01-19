@@ -21,7 +21,7 @@ import android.widget.Toast;
 public class ManagerSqlite extends SQLiteOpenHelper {
 	SQLiteDatabase database = null;
 	private static final String name = "data_nhinhinhdoanchu.sqlite";
-	private static final String path = "/data/data/com.nvd.duoihinhbatchu/databases/";
+	private static final String path = "/data/data/com.vandong.duoihinhbatchu/databases/";
 	Context mContex;
 
 	public ManagerSqlite(Context context) {
@@ -60,11 +60,45 @@ public class ManagerSqlite extends SQLiteOpenHelper {
 
 	}
 
+	public void UploadCauHoi(int ID1, int ID2, Cauhoi cauhoi1, Cauhoi cauhoi2) {
+		// ID1 = ID2
+		String sql1 = "UPDATE cauhoi SET hinh = " + cauhoi2.getHinhanh()
+				+ " WHERE id =" + ID1 + "";
+		String sql2 = "UPDATE cauhoi SET dapan = '" + cauhoi2.getDapan()
+				+ "' WHERE id =" + ID1 + "";
+		String sql3 = "UPDATE cauhoi SET goiy = '" + cauhoi2.getGoiy()
+				+ "' WHERE id =" + ID1 + "";
+		String sql4 = "UPDATE cauhoi SET ketqua = '" + cauhoi2.getKetqua()
+				+ "' WHERE id =" + ID1 + "";
+		// ID2 = ID1
+		String sql5 = "UPDATE cauhoi SET hinh = " + cauhoi1.getHinhanh()
+				+ " WHERE id =" + ID2 + "";
+		String sql6 = "UPDATE cauhoi SET dapan = '" + cauhoi1.getDapan()
+				+ "' WHERE id =" + ID2 + "";
+		String sql7 = "UPDATE cauhoi SET goiy = '" + cauhoi1.getGoiy()
+				+ "' WHERE id =" + ID2 + "";
+		String sql8 = "UPDATE cauhoi SET ketqua = '" + cauhoi1.getKetqua()
+				+ "' WHERE id =" + ID2 + "";
+
+		SQLiteDatabase db = getWritableDatabase();
+		db.execSQL(sql1);
+		db.execSQL(sql2);
+		db.execSQL(sql3);
+		db.execSQL(sql4);
+		//
+		db.execSQL(sql5);
+		db.execSQL(sql6);
+		db.execSQL(sql7);
+		db.execSQL(sql8);
+
+	}
+
 	public void UpdateImageView(int img, int id) {
 		String sql = "UPDATE cauhoi SET hinh = " + img + " WHERE id = " + id
 				+ "";
 		SQLiteDatabase db = getWritableDatabase();
 		db.execSQL(sql);
+
 	}
 
 	public void UpdateOgoiy(String dapan) {
