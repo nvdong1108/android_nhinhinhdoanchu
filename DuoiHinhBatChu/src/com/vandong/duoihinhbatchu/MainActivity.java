@@ -116,11 +116,11 @@ public class MainActivity extends Activity implements OnClickListener {
 			btn_off_volume.setVisibility(View.VISIBLE);
 		}
 		// Upload môi khi upload versition
-		if (pre.getInt("upload_data", 3) == 3) {
+		if (pre.getInt("upload_data", 4) == 4) {
 			doCreatDb();
 			deleteDb();
 			SharedPreferences.Editor edit = pre.edit();
-			edit.putInt("upload_data", 4);
+			edit.putInt("upload_data", 5);
 			edit.putInt("numberDiem", 100);
 			edit.commit();
 			//
@@ -128,7 +128,7 @@ public class MainActivity extends Activity implements OnClickListener {
 			managersqllite = new ManagerSqlite(getApplication());
 			managersqllite.opentdatabase();
 			//
-			managersqllite.UpdateImageView(R.drawable.binhma, 1);
+			managersqllite.UpdateImageView(R.drawable.bomtan, 1);
 			managersqllite.UpdateImageView(R.drawable.tranhsondau, 2);
 			managersqllite.UpdateImageView(R.drawable.toida, 3);
 			managersqllite.UpdateImageView(R.drawable.dongdao, 4);
@@ -162,7 +162,7 @@ public class MainActivity extends Activity implements OnClickListener {
 			managersqllite.UpdateImageView(R.drawable.cannao, 27);
 			managersqllite.UpdateImageView(R.drawable.tutung, 28);
 			managersqllite.UpdateImageView(R.drawable.sodaohoa, 29);
-			managersqllite.UpdateImageView(R.drawable.ytu, 30);
+			managersqllite.UpdateImageView(R.drawable.binhma, 30);
 			//
 			managersqllite.UpdateImageView(R.drawable.thatkinh, 31);
 			managersqllite.UpdateImageView(R.drawable.dainhan, 32);

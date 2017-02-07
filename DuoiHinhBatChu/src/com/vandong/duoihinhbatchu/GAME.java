@@ -40,6 +40,7 @@ import android.view.View.OnClickListener;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -72,6 +73,7 @@ public class GAME extends Activity implements OnClickListener {
 	private ImageView icon_help;
 	private ImageView icon_swap;
 	private ImageView ic_people;
+	private ImageView ic_key;
 	//
 	public Button btn_okq_1;
 	public Button btn_okq_2;
@@ -153,6 +155,7 @@ public class GAME extends Activity implements OnClickListener {
 		ic_audio_off.setOnClickListener(this);
 		ic_audio_on.setOnClickListener(this);
 		icon_swap.setOnClickListener(this);
+		ic_key.setOnClickListener(this);
 
 		// bắt sự kiện
 		ic_people.setOnClickListener(this);
@@ -219,6 +222,7 @@ public class GAME extends Activity implements OnClickListener {
 
 			}
 		});
+
 	}
 
 	@Override
@@ -258,6 +262,7 @@ public class GAME extends Activity implements OnClickListener {
 		ic_audio_off = (ImageView) findViewById(R.id.icon_audio_off);
 		ic_audio_on = (ImageView) findViewById(R.id.icon_audio_on);
 		ic_people = (ImageView) findViewById(R.id.ic_people);
+		ic_key = (ImageView) findViewById(R.id.ic_key);
 		//
 		btn_numberlevel = (TextView) findViewById(R.id.btn_level);
 		btn_diem = (TextView) findViewById(R.id.btn_diem);
@@ -646,6 +651,260 @@ public class GAME extends Activity implements OnClickListener {
 			btn_okq_10.setTextColor(Color.parseColor("#FFFF00"));
 			XoaButton_help(M[9] + "");
 			break;
+		case 11:
+			btn_okq_1.setText(M[0] + "");
+			btn_okq_1.setOnClickListener(null);
+			btn_okq_1.setTextColor(Color.parseColor("#FFFF00"));
+			XoaButton_help(M[0] + "");
+			//
+			btn_okq_2.setText(M[1] + "");
+			btn_okq_2.setOnClickListener(null);
+			btn_okq_2.setTextColor(Color.parseColor("#FFFF00"));
+			XoaButton_help(M[1] + "");
+			//
+			btn_okq_3.setText(M[2] + "");
+			btn_okq_3.setOnClickListener(null);
+			btn_okq_3.setTextColor(Color.parseColor("#FFFF00"));
+			XoaButton_help(M[2] + "");
+			//
+			btn_okq_4.setText(M[3] + "");
+			btn_okq_4.setOnClickListener(null);
+			btn_okq_4.setTextColor(Color.parseColor("#FFFF00"));
+			XoaButton_help(M[3] + "");
+			//
+			btn_okq_5.setText(M[4] + "");
+			btn_okq_5.setOnClickListener(null);
+			btn_okq_5.setTextColor(Color.parseColor("#FFFF00"));
+			XoaButton_help(M[4] + "");
+			//
+			btn_okq_6.setText(M[5] + "");
+			btn_okq_6.setOnClickListener(null);
+			btn_okq_6.setTextColor(Color.parseColor("#FFFF00"));
+			XoaButton_help(M[5] + "");
+			//
+			btn_okq_7.setText(M[6] + "");
+			btn_okq_7.setOnClickListener(null);
+			btn_okq_7.setTextColor(Color.parseColor("#FFFF00"));
+			XoaButton_help(M[6] + "");
+			//
+			btn_okq_8.setText(M[7] + "");
+			btn_okq_8.setOnClickListener(null);
+			btn_okq_8.setTextColor(Color.parseColor("#FFFF00"));
+			XoaButton_help(M[7] + "");
+			//
+			btn_okq_9.setText(M[8] + "");
+			btn_okq_9.setOnClickListener(null);
+			btn_okq_9.setTextColor(Color.parseColor("#FFFF00"));
+			XoaButton_help(M[8] + "");
+			//
+			btn_okq_10.setText(M[9] + "");
+			btn_okq_10.setOnClickListener(null);
+			btn_okq_10.setTextColor(Color.parseColor("#FFFF00"));
+			XoaButton_help(M[9] + "");
+			//
+			btn_okq_11.setText(M[10] + "");
+			btn_okq_11.setOnClickListener(null);
+			btn_okq_11.setTextColor(Color.parseColor("#FFFF00"));
+			XoaButton_help(M[10] + "");
+			break;
+		case 12:
+			btn_okq_1.setText(M[0] + "");
+			btn_okq_1.setOnClickListener(null);
+			btn_okq_1.setTextColor(Color.parseColor("#FFFF00"));
+			XoaButton_help(M[0] + "");
+			//
+			btn_okq_2.setText(M[1] + "");
+			btn_okq_2.setOnClickListener(null);
+			btn_okq_2.setTextColor(Color.parseColor("#FFFF00"));
+			XoaButton_help(M[1] + "");
+			//
+			btn_okq_3.setText(M[2] + "");
+			btn_okq_3.setOnClickListener(null);
+			btn_okq_3.setTextColor(Color.parseColor("#FFFF00"));
+			XoaButton_help(M[2] + "");
+			//
+			btn_okq_4.setText(M[3] + "");
+			btn_okq_4.setOnClickListener(null);
+			btn_okq_4.setTextColor(Color.parseColor("#FFFF00"));
+			XoaButton_help(M[3] + "");
+			//
+			btn_okq_5.setText(M[4] + "");
+			btn_okq_5.setOnClickListener(null);
+			btn_okq_5.setTextColor(Color.parseColor("#FFFF00"));
+			XoaButton_help(M[4] + "");
+			//
+			btn_okq_6.setText(M[5] + "");
+			btn_okq_6.setOnClickListener(null);
+			btn_okq_6.setTextColor(Color.parseColor("#FFFF00"));
+			XoaButton_help(M[5] + "");
+			//
+			btn_okq_7.setText(M[6] + "");
+			btn_okq_7.setOnClickListener(null);
+			btn_okq_7.setTextColor(Color.parseColor("#FFFF00"));
+			XoaButton_help(M[6] + "");
+			//
+			btn_okq_8.setText(M[7] + "");
+			btn_okq_8.setOnClickListener(null);
+			btn_okq_8.setTextColor(Color.parseColor("#FFFF00"));
+			XoaButton_help(M[7] + "");
+			//
+			btn_okq_9.setText(M[8] + "");
+			btn_okq_9.setOnClickListener(null);
+			btn_okq_9.setTextColor(Color.parseColor("#FFFF00"));
+			XoaButton_help(M[8] + "");
+			//
+			btn_okq_10.setText(M[9] + "");
+			btn_okq_10.setOnClickListener(null);
+			btn_okq_10.setTextColor(Color.parseColor("#FFFF00"));
+			XoaButton_help(M[9] + "");
+			//
+			btn_okq_11.setText(M[10] + "");
+			btn_okq_11.setOnClickListener(null);
+			btn_okq_11.setTextColor(Color.parseColor("#FFFF00"));
+			XoaButton_help(M[10] + "");
+			//
+			btn_okq_12.setText(M[10] + "");
+			btn_okq_12.setOnClickListener(null);
+			btn_okq_12.setTextColor(Color.parseColor("#FFFF00"));
+			XoaButton_help(M[11] + "");
+			break;
+		case 13:
+			btn_okq_1.setText(M[0] + "");
+			btn_okq_1.setOnClickListener(null);
+			btn_okq_1.setTextColor(Color.parseColor("#FFFF00"));
+			XoaButton_help(M[0] + "");
+			//
+			btn_okq_2.setText(M[1] + "");
+			btn_okq_2.setOnClickListener(null);
+			btn_okq_2.setTextColor(Color.parseColor("#FFFF00"));
+			XoaButton_help(M[1] + "");
+			//
+			btn_okq_3.setText(M[2] + "");
+			btn_okq_3.setOnClickListener(null);
+			btn_okq_3.setTextColor(Color.parseColor("#FFFF00"));
+			XoaButton_help(M[2] + "");
+			//
+			btn_okq_4.setText(M[3] + "");
+			btn_okq_4.setOnClickListener(null);
+			btn_okq_4.setTextColor(Color.parseColor("#FFFF00"));
+			XoaButton_help(M[3] + "");
+			//
+			btn_okq_5.setText(M[4] + "");
+			btn_okq_5.setOnClickListener(null);
+			btn_okq_5.setTextColor(Color.parseColor("#FFFF00"));
+			XoaButton_help(M[4] + "");
+			//
+			btn_okq_6.setText(M[5] + "");
+			btn_okq_6.setOnClickListener(null);
+			btn_okq_6.setTextColor(Color.parseColor("#FFFF00"));
+			XoaButton_help(M[5] + "");
+			//
+			btn_okq_7.setText(M[6] + "");
+			btn_okq_7.setOnClickListener(null);
+			btn_okq_7.setTextColor(Color.parseColor("#FFFF00"));
+			XoaButton_help(M[6] + "");
+			//
+			btn_okq_8.setText(M[7] + "");
+			btn_okq_8.setOnClickListener(null);
+			btn_okq_8.setTextColor(Color.parseColor("#FFFF00"));
+			XoaButton_help(M[7] + "");
+			//
+			btn_okq_9.setText(M[8] + "");
+			btn_okq_9.setOnClickListener(null);
+			btn_okq_9.setTextColor(Color.parseColor("#FFFF00"));
+			XoaButton_help(M[8] + "");
+			//
+			btn_okq_10.setText(M[9] + "");
+			btn_okq_10.setOnClickListener(null);
+			btn_okq_10.setTextColor(Color.parseColor("#FFFF00"));
+			XoaButton_help(M[9] + "");
+			//
+			btn_okq_11.setText(M[10] + "");
+			btn_okq_11.setOnClickListener(null);
+			btn_okq_11.setTextColor(Color.parseColor("#FFFF00"));
+			XoaButton_help(M[10] + "");
+			//
+			btn_okq_12.setText(M[10] + "");
+			btn_okq_12.setOnClickListener(null);
+			btn_okq_12.setTextColor(Color.parseColor("#FFFF00"));
+			XoaButton_help(M[11] + "");
+			//
+			btn_okq_13.setText(M[10] + "");
+			btn_okq_13.setOnClickListener(null);
+			btn_okq_13.setTextColor(Color.parseColor("#FFFF00"));
+			XoaButton_help(M[12] + "");
+			break;
+		case 14:
+			btn_okq_1.setText(M[0] + "");
+			btn_okq_1.setOnClickListener(null);
+			btn_okq_1.setTextColor(Color.parseColor("#FFFF00"));
+			XoaButton_help(M[0] + "");
+			//
+			btn_okq_2.setText(M[1] + "");
+			btn_okq_2.setOnClickListener(null);
+			btn_okq_2.setTextColor(Color.parseColor("#FFFF00"));
+			XoaButton_help(M[1] + "");
+			//
+			btn_okq_3.setText(M[2] + "");
+			btn_okq_3.setOnClickListener(null);
+			btn_okq_3.setTextColor(Color.parseColor("#FFFF00"));
+			XoaButton_help(M[2] + "");
+			//
+			btn_okq_4.setText(M[3] + "");
+			btn_okq_4.setOnClickListener(null);
+			btn_okq_4.setTextColor(Color.parseColor("#FFFF00"));
+			XoaButton_help(M[3] + "");
+			//
+			btn_okq_5.setText(M[4] + "");
+			btn_okq_5.setOnClickListener(null);
+			btn_okq_5.setTextColor(Color.parseColor("#FFFF00"));
+			XoaButton_help(M[4] + "");
+			//
+			btn_okq_6.setText(M[5] + "");
+			btn_okq_6.setOnClickListener(null);
+			btn_okq_6.setTextColor(Color.parseColor("#FFFF00"));
+			XoaButton_help(M[5] + "");
+			//
+			btn_okq_7.setText(M[6] + "");
+			btn_okq_7.setOnClickListener(null);
+			btn_okq_7.setTextColor(Color.parseColor("#FFFF00"));
+			XoaButton_help(M[6] + "");
+			//
+			btn_okq_8.setText(M[7] + "");
+			btn_okq_8.setOnClickListener(null);
+			btn_okq_8.setTextColor(Color.parseColor("#FFFF00"));
+			XoaButton_help(M[7] + "");
+			//
+			btn_okq_9.setText(M[8] + "");
+			btn_okq_9.setOnClickListener(null);
+			btn_okq_9.setTextColor(Color.parseColor("#FFFF00"));
+			XoaButton_help(M[8] + "");
+			//
+			btn_okq_10.setText(M[9] + "");
+			btn_okq_10.setOnClickListener(null);
+			btn_okq_10.setTextColor(Color.parseColor("#FFFF00"));
+			XoaButton_help(M[9] + "");
+			//
+			btn_okq_11.setText(M[10] + "");
+			btn_okq_11.setOnClickListener(null);
+			btn_okq_11.setTextColor(Color.parseColor("#FFFF00"));
+			XoaButton_help(M[10] + "");
+			//
+			btn_okq_12.setText(M[10] + "");
+			btn_okq_12.setOnClickListener(null);
+			btn_okq_12.setTextColor(Color.parseColor("#FFFF00"));
+			XoaButton_help(M[11] + "");
+			//
+			btn_okq_13.setText(M[10] + "");
+			btn_okq_13.setOnClickListener(null);
+			btn_okq_13.setTextColor(Color.parseColor("#FFFF00"));
+			XoaButton_help(M[12] + "");
+			//
+			btn_okq_14.setText(M[10] + "");
+			btn_okq_14.setOnClickListener(null);
+			btn_okq_14.setTextColor(Color.parseColor("#FFFF00"));
+			XoaButton_help(M[13] + "");
+			break;
 		default:
 			break;
 		}
@@ -693,7 +952,68 @@ public class GAME extends Activity implements OnClickListener {
 
 	@Override
 	public void onClick(View v) {
-		if (v == ic_people) {
+		if (v == ic_key) {
+			final Dialog dl_inkey = new Dialog(GAME.this,
+					R.style.My_Dialog_Theme);
+			dl_inkey.setContentView(R.layout.dialog_input_key);
+			dl_inkey.getWindow().setLayout(LayoutParams.MATCH_PARENT,
+					LayoutParams.WRAP_CONTENT);
+			dl_inkey.setCanceledOnTouchOutside(false);
+			dl_inkey.setCancelable(false);
+			dl_inkey.show();
+			final EditText edit_input_key = (EditText) dl_inkey
+					.findViewById(R.id.edit_iputKey);
+			Button btn_xacnhan_ipk = (Button) dl_inkey
+					.findViewById(R.id.btn_xacnhan_inputkey);
+			Button btn_thoat_ipk = (Button) dl_inkey
+					.findViewById(R.id.btn_thoat_inputkey);
+			// bat su kien
+			edit_input_key.setOnClickListener(new OnClickListener() {
+
+				@Override
+				public void onClick(View arg0) {
+					edit_input_key.setText("");
+
+				}
+			});
+			btn_xacnhan_ipk.setOnClickListener(new OnClickListener() {
+
+				@Override
+				public void onClick(View arg0) {
+					// nhập key
+					/*
+					 * 
+					 */
+					managersqllite.opentdatabase();
+					int key = Integer.parseInt(edit_input_key.getText()
+							.toString());
+
+					if (managersqllite.getKey(key)) {
+
+						diem = diem + 50;
+						btn_diem.setText(diem+ "");
+						dl_inkey.dismiss();
+						Toast.makeText(getApplicationContext(),
+								"Nhập KEY thành công", Toast.LENGTH_LONG)
+								.show();
+						managersqllite.deleteKey(key);
+						managersqllite.close();
+					} else {
+						Toast.makeText(getApplicationContext(),
+								"KEY nhấp không đúng", Toast.LENGTH_LONG)
+								.show();
+					}
+
+				}
+			});
+			btn_thoat_ipk.setOnClickListener(new OnClickListener() {
+
+				@Override
+				public void onClick(View arg0) {
+					dl_inkey.dismiss();
+				}
+			});
+		} else if (v == ic_people) {
 			Bitmap bitmap = takeScreenshot();
 			saveBitmap(bitmap);
 			shareIt();

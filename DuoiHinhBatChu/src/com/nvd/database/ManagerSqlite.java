@@ -150,6 +150,23 @@ public class ManagerSqlite extends SQLiteOpenHelper {
 		return ch;
 	}
 
+	public boolean getKey(int key) {
+		Cursor c = null;
+		c = database.query("key", null, "key=" + key + "", null, null, null,
+				null);
+		if (!c.moveToFirst() || c.getCount() == 0) {
+			c.close();
+			return false;
+		}
+		c.close();
+		return true;
+	}
+
+	public void deleteKey(int key) {
+		
+		database.delete("key", "key = "+key+"", null);
+	}
+
 	public ArrayList<Cauhoi> getALL() {
 		ArrayList<Cauhoi> arr = new ArrayList<Cauhoi>();
 		Cursor c = null;

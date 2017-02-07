@@ -95,7 +95,7 @@
 
     <Button
         android:id="@+id/btn_stargame"
-        android:layout_width="150dp"
+        android:layout_width="180dp"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:layout_centerVertical="true"
@@ -108,7 +108,7 @@
 
     <Button
         android:id="@+id/btn_rate"
-        android:layout_width="150dp"
+        android:layout_width="180dp"
         android:layout_height="wrap_content"
         android:layout_below="@+id/btn_stargame"
         android:layout_centerHorizontal="true"
@@ -116,13 +116,13 @@
         android:background="@drawable/btn_start_game"
         android:gravity="center"
         android:padding="5dp"
-        android:text="* Đánh Giá *"
+        android:text="Đánh Giá"
         android:textColor="#0AA989"
         android:textStyle="bold" />
 
     <Button
         android:id="@+id/btn_huongdan"
-        android:layout_width="150dp"
+        android:layout_width="180dp"
         android:layout_height="wrap_content"
         android:layout_below="@+id/btn_rate"
         android:layout_centerHorizontal="true"
