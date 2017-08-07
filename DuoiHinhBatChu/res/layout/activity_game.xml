@@ -5,7 +5,13 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/anhen1"
-    tools:context="com.vandong.duoihinhbatchu.GAME" >
+    tools:context="com.vandong.gamebatchu.GAME" >
+
+    <VideoView
+        android:id="@+id/videoViewyoutobe"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:visibility="gone" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -90,10 +96,15 @@
             android:gravity="center"
             android:orientation="horizontal" >
 
-            <Space
+            <ImageView
+                android:id="@+id/ic_key_yotobe"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="1" />
+                android:layout_margin="2dp"
+                android:layout_weight="1"
+                android:background="@drawable/custom_click_all"
+                android:padding="2dp"
+                android:src="@drawable/key_youtobe" />
 
             <LinearLayout
                 android:layout_width="0dp"
@@ -155,9 +166,9 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="2dp"
                 android:layout_weight="1"
+                android:background="@drawable/custom_click_all"
                 android:padding="2dp"
-                android:src="@drawable/ic_key" 
-                android:background="@drawable/custom_click_all"/>
+                android:src="@drawable/ic_key" />
         </LinearLayout>
 
         <ImageView
@@ -168,7 +179,7 @@
             android:layout_marginRight="3dp"
             android:layout_weight="6"
             android:background="@drawable/custom_img"
-            android:src="@drawable/ngucoc" />
+            android:src="@drawable/dangky" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -531,7 +542,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
             ads:adSize="BANNER"
-            ads:adUnitId="ca-app-pub-1395380684132176/8067045842" />
+            ads:adUnitId="ca-app-pub-1395380684132176/5201343497" />
     </LinearLayout>
 
 </RelativeLayout>

@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/backgroup_main"
-    tools:context="com.vandong.duoihinhbatchu.MainActivity" >
+    tools:context="com.vandong.gamebatchu.MainActivity" >
 
     <com.google.android.gms.ads.AdView
         android:id="@+id/adView"
@@ -12,7 +12,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         ads:adSize="BANNER"
-        ads:adUnitId="ca-app-pub-1395380684132176/8067045842" />
+        ads:adUnitId="ca-app-pub-1395380684132176/5201343497" />
 
     <LinearLayout
         android:id="@+id/layout_hetder"
@@ -119,12 +119,25 @@
         android:text="Đánh Giá"
         android:textColor="#0AA989"
         android:textStyle="bold" />
+    <Button
+        android:id="@+id/btn_dowload_versition2"
+        android:layout_width="180dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/btn_rate"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="5dp"
+        android:background="@drawable/btn_start_game"
+        android:gravity="center"
+        android:padding="5dp"
+        android:text="Game Phần 2"
+        android:textColor="#0AA989"
+        android:textStyle="bold" />
 
     <Button
         android:id="@+id/btn_huongdan"
         android:layout_width="180dp"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/btn_rate"
+        android:layout_below="@+id/btn_dowload_versition2"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="5dp"
         android:background="@drawable/btn_start_game"

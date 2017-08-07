@@ -1,5 +1,6 @@
 eclipse.preferences.version=1
 encoding//src/com/nvd/database/ManagerSqlite.java=UTF-8
-encoding//src/com/vandong/duoihinhbatchu/ChienThang.java=UTF-8
-encoding//src/com/vandong/duoihinhbatchu/GAME.java=UTF-8
-encoding//src/com/vandong/duoihinhbatchu/MainActivity.java=UTF-8
+encoding//src/com/nvd/database/UploadImage.java=UTF-8
+encoding//src/com/vandong/gamebatchu/ChienThang.java=UTF-8
+encoding//src/com/vandong/gamebatchu/GAME.java=UTF-8
+encoding//src/com/vandong/gamebatchu/MainActivity.java=UTF-8
