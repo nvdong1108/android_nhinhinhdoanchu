@@ -1311,8 +1311,12 @@ public class GAME extends Activity implements OnClickListener {
 		if (pre.getBoolean("speak", true)) {
 			ic_audio_off.setVisibility(View.GONE);
 			ic_audio_on.setVisibility(View.VISIBLE);
-			nhacnen.start();
-			handler.postDelayed(runmusics, 15000);
+			try {
+				nhacnen.start();
+				handler.postDelayed(runmusics, 15000);
+			} catch (Exception e) {
+			}
+			
 		} else {
 			ic_audio_off.setVisibility(View.VISIBLE);
 			ic_audio_on.setVisibility(View.GONE);
@@ -1321,6 +1325,7 @@ public class GAME extends Activity implements OnClickListener {
 
 		// set level cho game la số id của câu h�?i
 		// // set hình ảnh cho câu h�?i
+//		Glide
 		img_cauhoi.setImageResource(CAUHOI.getHinhanh());
 		// // set số lượng ô số cho câu h�?i
 
